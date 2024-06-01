@@ -97,6 +97,152 @@ const songs = [
     <div class="subtitle">BENSON BOONE</div>`,
     poster: "./img/16.png",
   },
+  {
+    id: "17",
+    songName: ` LIKE THAT <br>
+    <div class="subtitle"> BABYMONSTER </div>`,
+    poster: "./img/17.png",
+  },
+  {
+    id: "18",
+    songName: ` Dynamite <br>
+    <div class="subtitle">BTS</div>`,
+    poster: "./img/18.png",
+  },
+  {
+    id: "19",
+    songName: ` BOOMBAYAH <br>
+    <div class="subtitle">Blackpink</div>`,
+    poster: "./img/19.png",
+  },
+  {
+    id: "20",
+    songName: ` LOSER <br>
+    <div class="subtitle">Bigbang</div>`,
+    poster: "./img/20.png",
+  },
+  {
+    id: "21",
+    songName: ` Comethru <br>
+    <div class="subtitle">Jeremy Zucker</div>`,
+    poster: "./img/21.png",
+  },
+  {
+    id: "22",
+    songName: ` The River <br>
+    <div class="subtitle">Axel Johansson</div>`,
+    poster: "./img/22.png",
+  },
+  {
+    id: "23",
+    songName: ` The Chainsmokers  <br>
+    <div class="subtitle">Joseph Chun</div>`,
+    poster: "./img/23.png",
+  },
+  {
+    id: "24",
+    songName: ` Waiting For Love<br>
+    <div class="subtitle">Avicii</div>`,
+    poster: "./img/24.png",
+  },
+  {
+    id: "25",
+    songName: ` Sprinter <br>
+    <div class="subtitle">Central Cee</div>`,
+    poster: "./img/25.png",
+  },
+  {
+    id: "26",
+    songName: ` Groin <br>
+    <div class="subtitle">RM</div>`,
+    poster: "./img/26.png",
+  },
+  {
+    id: "27",
+    songName: ` Type Shit <br>
+    <div class="subtitle">Future</div>`,
+    poster: "./img/27.png",
+  },
+  {
+    id: "28",
+    songName: ` Polo G - RAPSTAR <br>
+    <div class="subtitle">Polo G</div>`,
+    poster: "./img/28.png",
+  },
+];
+const songs2 = [
+  {
+    id: "17",
+    songName: ` LIKE THAT <br>
+    <div class="subtitle"> BABYMONSTER </div>`,
+    poster: "./img/17.png",
+  },
+  {
+    id: "18",
+    songName: ` Dynamite <br>
+    <div class="subtitle">BTS</div>`,
+    poster: "./img/18.png",
+  },
+  {
+    id: "19",
+    songName: ` BOOMBAYAH <br>
+    <div class="subtitle">Blackpink</div>`,
+    poster: "./img/19.png",
+  },
+  {
+    id: "20",
+    songName: ` LOSER <br>
+    <div class="subtitle">Bigbang</div>`,
+    poster: "./img/20.png",
+  },
+  {
+    id: "21",
+    songName: ` Comethru <br>
+    <div class="subtitle">Jeremy Zucker</div>`,
+    poster: "./img/21.png",
+  },
+  {
+    id: "22",
+    songName: ` The River <br>
+    <div class="subtitle">Axel Johansson</div>`,
+    poster: "./img/22.png",
+  },
+  {
+    id: "23",
+    songName: ` The Chainsmokers  <br>
+    <div class="subtitle">Joseph Chun</div>`,
+    poster: "./img/23.png",
+  },
+  {
+    id: "24",
+    songName: ` Waiting For Love<br>
+    <div class="subtitle">Avicii</div>`,
+    poster: "./img/24.png",
+  },
+  {
+    id: "25",
+    songName: ` Sprinter <br>
+    <div class="subtitle">Central Cee</div>`,
+    poster: "./img/25.png",
+  },
+  {
+    id: "26",
+    songName: ` Groin <br>
+    <div class="subtitle">RM</div>`,
+    poster: "./img/26.png",
+  },
+  {
+    id: "27",
+    songName: ` Type Shit <br>
+    <div class="subtitle">Future</div>`,
+    poster: "./img/27.png",
+  },
+  {
+    id: "28",
+    songName: ` Polo G - RAPSTAR <br>
+    <div class="subtitle">Polo G</div>`,
+    poster: "./img/28.png",
+  },
 ];
 
 Array.from(document.getElementsByClassName("songItem")).forEach(
@@ -105,8 +251,12 @@ Array.from(document.getElementsByClassName("songItem")).forEach(
     element.getElementsByTagName("h5")[0].innerHTML = songs[i].songName;
   }
 );
-
-//
+Array.from(document.getElementsByClassName("songItem2")).forEach(
+  (element, i) => {
+    element.getElementsByTagName("img")[0].src = songs2[i].poster;
+    element.getElementsByTagName("h5")[0].innerHTML = songs2[i].songName;
+  }
+);
 
 let masterPlay = document.getElementById("masterPlay");
 let wave = document.getElementsByClassName("wave")[0];
@@ -134,6 +284,22 @@ const makeAllPlays = () => {
     }
   );
 };
+
+// week *******************
+document.querySelectorAll(".weekbi").forEach((item) => {
+  item.addEventListener("click", function () {
+    document.querySelectorAll(".songItem2").forEach((li) => {
+      li.classList.remove("active6");
+      li.style.background = "#111727"; 
+    });
+    this.closest("li").classList.add("active6");
+    Array.from(document.getElementsByClassName("active6")).forEach(
+      (element) => {
+        element.style.background = "rgb(105, 105, 170, 0.3)";
+      }
+    );
+  });
+});
 
 const makeAllBackgrounds = () => {
   Array.from(document.getElementsByClassName("songItem")).forEach((element) => {

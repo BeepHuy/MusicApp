@@ -1,0 +1,202 @@
+header .menu_side,
+.song_side2 {
+    position: relative;
+    width: 25%;
+    height: 90%;
+    /* border: 1px solid #fff; */
+    background-color: #111727;
+    box-shadow: 5px 0px 2px #090f1f;
+    color: #fff;
+}
+
+header .song_side2 {
+    width: 75%;
+    background: #0b1320;
+}
+
+
+header .song_side2 {
+    z-index: 2;
+}
+
+header .song_side2 nav {
+    width: 90%;
+    height: 10%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header .song_side2 nav ul {
+    display: flex;
+}
+
+header .song_side2 nav ul li {
+    position: relative;
+    list-style-type: none;
+    font-size: 13px;
+    color: #4c5262;
+    margin-right: 25px;
+    cursor: pointer;
+    transition: .3s linear;
+}
+
+header .song_side2 nav ul li:hover {
+    color: #fff;
+}
+
+header .song_side2 nav ul li:nth-child(1) {
+    color: #fff;
+}
+
+header .song_side2 nav ul li span {
+    position: absolute;
+    width: 100%;
+    height: 2.5px;
+    background: #36e2ec;
+    bottom: -5px;
+    left: 0;
+    border-radius: 20px;
+}
+
+header .song_side2 nav .search {
+    position: relative;
+    width: 40%;
+    padding: 1px 10px;
+    border-radius: 20px;
+    color: gray;
+}
+
+header .song_side2 nav .search::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: rgb(184, 184, 184, .1);
+    backdrop-filter: blur(5px);
+    z-index: -1;
+}
+
+header .song_side2 nav .search .bi {
+    font-size: 13px;
+    padding: 3px 0px 0px 10px;
+}
+
+header .song_side2 nav .search input {
+    width: 90%;
+    background: none;
+    outline: none;
+    border: none;
+    padding: 0px 10px;
+    color: #fff;
+    font-size: 12px;
+}
+
+header .song_side2 nav .user {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+header .song_side2 nav .user img {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 2px 2px 8px #131312;
+    object-fit: cover;
+}
+
+header .song_side2::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 89.8%;
+    margin-top: 7.1%;
+    background: url(img/week.png) no-repeat;
+    background-size: 100%;
+    z-index: -1;
+}
+
+header .song_side2 h1 {
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+}
+
+header .song_side2 .content {
+    padding: 20px;
+    height: 90%;
+    background: #1117279e;
+    /* border: 1px solid #36e2ec; */
+}
+
+header .song_side2 .content .contentList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .song_side2 .content .contentList .contentItem {
+    width: 32%;
+    height: auto;
+    padding: 10px 0 10px 0;
+}
+
+header .song_side2 .content .contentList .contentItem h4 {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+}
+
+header .song_side2 .content .contentList .contentItem li {
+    position: relative;
+    display: flex;
+    margin-top: 15px;
+    padding: 0px 20px;
+    list-style-type: none;
+    align-items: center;
+    cursor: pointer;
+    transition: .3s linear;
+    height: 100px;
+    background: #111727;
+}
+
+header .song_side2 .content .contentList .contentItem li:hover {
+    background: rgb(105, 105, 170, .1);
+}
+
+header .song_side2 .content .contentList .contentItem li span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4c5262;
+    padding-right: 20px;
+}
+
+header .song_side2 .content .contentList .contentItem li img {
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    box-shadow: 0px 0px 1px 1px rgba(243, 243, 243, 0.292);
+}
+
+header .song_side2 .content .contentList .contentItem li h5 {
+    font-size: 14px;
+    margin-left: 20px;
+}
+
+header .song_side2 .content .contentList .contentItem li h5 .subtitle {
+    font-size: 12px;
+    color: #4c5262
+}
+
+header .song_side2 .content .contentList .contentItem li .bi {
+    position: absolute;
+    left: 30%;
+    top: 45%;
+    font-size: 16px;
+}
