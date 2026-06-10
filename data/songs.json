@@ -1,0 +1,60 @@
+{
+  "featured": {
+    "title": "Alen Walker-Fade",
+    "description": "You were the shadow to light Did you feel us Another start You fade\nAway afraid our aim is out of sight Wanna see us Alive"
+  },
+  "sidebar": [
+    { "id": 1, "title": "On My Way", "artist": "Alan Walker" },
+    { "id": 2, "title": "Saware", "artist": "T-Series" },
+    { "id": 3, "title": "Hãy Trao Cho Anh", "artist": "M-TP" },
+    { "id": 4, "title": "Fortnight", "artist": "Taylor Swift" },
+    { "id": 5, "title": "Hẹn Ước Từ Hư Vô", "artist": "MỸ TÂM" },
+    { "id": 6, "title": "Flower", "artist": "JISOO" },
+    { "id": 7, "title": "Wild Flower", "artist": "RM" },
+    { "id": 8, "title": "Love wins all", "artist": "IU" }
+  ],
+  "popularSongs": [
+    { "id": 9,  "title": "BBIBBI", "artist": "IU" },
+    { "id": 10, "title": "Enchanted", "artist": "Taylor Swift" },
+    { "id": 11, "title": "Come Back To Me", "artist": "RM" },
+    { "id": 12, "title": "Chạy Ngay Đi", "artist": "M-TP" },
+    { "id": 13, "title": "Standing Next To You", "artist": "JUNG KOOK" },
+    { "id": 14, "title": "Ava Max - Whatever", "artist": "KYGO" },
+    { "id": 15, "title": "Playboi Carti - Popular", "artist": "THE WEEKND" },
+    { "id": 16, "title": "Beautiful Things", "artist": "BENSON BOONE" }
+  ],
+  "artists": [
+    { "name": "Sơn Tùng M-TP", "img": 2 },
+    { "name": "Alan Walker", "img": 1 },
+    { "name": "IU", "img": 3 },
+    { "name": "Taylor Swift", "img": 4 },
+    { "name": "Mỹ Tâm", "img": 5 },
+    { "name": "JISOO", "img": 6 },
+    { "name": "RM", "img": 7 },
+    { "name": "Jung Kook", "img": 8 },
+    { "name": "KYGO", "img": 9 },
+    { "name": "The Weeknd", "img": 10 },
+    { "name": "Benson Boone", "img": 11 },
+    { "name": "Ava Max", "img": 12 }
+  ],
+  "weekly": {
+    "kpop": [
+      { "id": 17, "title": "LIKE THAT", "artist": "BABYMONSTER" },
+      { "id": 18, "title": "Dynamite", "artist": "BTS" },
+      { "id": 19, "title": "BOOMBAYAH", "artist": "Blackpink" },
+      { "id": 20, "title": "LOSER", "artist": "Bigbang" }
+    ],
+    "usuk": [
+      { "id": 21, "title": "Comethru", "artist": "Jeremy Zucker" },
+      { "id": 22, "title": "The River", "artist": "Axel Johansson" },
+      { "id": 23, "title": "The Chainsmokers", "artist": "Joseph Chun" },
+      { "id": 24, "title": "Waiting For Love", "artist": "Avicii" }
+    ],
+    "rap": [
+      { "id": 25, "title": "Sprinter", "artist": "Central Cee" },
+      { "id": 26, "title": "Groin", "artist": "RM" },
+      { "id": 27, "title": "Type Shit", "artist": "Future" },
+      { "id": 28, "title": "Polo G - RAPSTAR", "artist": "Polo G" }
+    ]
+  }
+}

@@ -12,90 +12,19 @@
 
 <body>
     <header>
+        <!-- ═══ SIDEBAR (giống index.html) ═══ -->
         <div class="menu_side">
             <h1>Playlist</h1>
             <div class="playlist">
                 <h4><span></span><i class="bi bi-music-note-beamed"></i><a href="./index.html"> Playlist</a></h4>
-                <h4 class="active"><span></span><i class="bi bi-music-note-beamed"></i> <a href="./week.html">Weekly
-                        Ratings</a></h4>
+                <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="./week.html">Weekly Ratings</a></h4>
                 <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="#"> Recommended</a></h4>
             </div>
-            <div class="menu_song">
-                <li class="songItem">
-                    <span>01</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="1"></i>
-                </li>
-                <li class="songItem">
-                    <span>02</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="2"></i>
-                </li>
-                <li class="songItem">
-                    <span>03</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="3"></i>
-                </li>
-                <li class="songItem">
-                    <span>04</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="4"></i>
-                </li>
-                <li class="songItem">
-                    <span>05</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="5"></i>
-                </li>
-                <li class="songItem">
-                    <span>06</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="6"></i>
-                </li>
-                <li class="songItem">
-                    <span>07</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="7"></i>
-                </li>
-                <li class="songItem">
-                    <span>08</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="8"></i>
-                </li>
-            </div>
+            <!-- JS sẽ render danh sách bài hát vào đây -->
+            <div class="menu_song"></div>
         </div>
 
+        <!-- ═══ WEEKLY CONTENT ═══ -->
         <div class="song_side2">
             <nav>
                 <ul>
@@ -113,138 +42,22 @@
             </nav>
             <div class="content">
                 <h1>Weekly Rankings</h1>
-                <div class="contentList">
-                    <div class="contentItem">
-                        <h4>K-Pop</h4>
-                        <li class="songItem2 active6">
-                            <span>01</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="17"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>02</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="18"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>03</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="19"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>04</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="20"></i>
-                        </li>
-                    </div>
-                    <div class="contentItem">
-                        <h4>US-UK</h4>
-                        <li class="songItem2">
-                            <span>01</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="21"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>02</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="22"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>03</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="23"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>04</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="24"></i>
-                        </li>
-                    </div>
-                    <div class="contentItem">
-                        <h4>Rap</h4>
-                        <li class="songItem2">
-                            <span>01</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="25"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>02</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="26"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>03</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="27"></i>
-                        </li>
-                        <li class="songItem2">
-                            <span>04</span>
-                            <img src="./img/1.png" alt="Alan" width="10%">
-                            <h5>
-                                On My Way
-                                <div class="subtitle">Alan walker</div>
-                            </h5>
-                            <i class="bi weekbi playcircle bi-play-circle-fill" id="28"></i>
-                        </li>
-                    </div>
-                </div>
+                <!-- JS sẽ render weekly rankings vào đây -->
+                <div class="contentList"></div>
             </div>
         </div>
 
+        <!-- ═══ PLAYER BAR ═══ -->
         <div class="master_play">
             <div class="wave">
                 <div class="wave1"></div>
                 <div class="wave1"></div>
                 <div class="wave1"></div>
             </div>
-            <img src="img/0.png" alt="Alan" id="poster_master_play">
+            <img src="img/0.png" alt="Album Art" id="poster_master_play">
             <h5 id="title">
-                Edit Kyren_ <br>
-                <div class="subtitle">Kyren Huy</div>
+                Select a song<br>
+                <div class="subtitle">to start playing</div>
             </h5>
             <div class="icon">
                 <i class="bi bi-skip-start-fill" id="back"></i>
@@ -258,18 +71,19 @@
                 <div class="dot"></div>
             </div>
             <span id="currentEnd">0:00</span>
-
             <div class="vol">
                 <i class="bi bi-volume-down-fill" id="vol_icon"></i>
                 <input type="range" id="vol" min="0" value="30" max="100">
                 <div class="vol_bar"></div>
                 <div class="dot" id="vol_dot"></div>
             </div>
-
         </div>
     </header>
 
-    <script src="./app.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
