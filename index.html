@@ -11,90 +11,19 @@
 
 <body>
     <header>
+        <!-- ═══ SIDEBAR ═══ -->
         <div class="menu_side">
             <h1>Playlist</h1>
             <div class="playlist">
-                <h4 class="active"><span></span><i class="bi bi-music-note-beamed"></i><a href="./index.html">
-                        Playlist</a></h4>
+                <h4><span></span><i class="bi bi-music-note-beamed"></i><a href="./index.html"> Playlist</a></h4>
                 <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="./week.html">Weekly Ratings</a></h4>
                 <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="#"> Recommended</a></h4>
             </div>
-            <div class="menu_song">
-                <li class="songItem">
-                    <span>01</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="1"></i>
-                </li>
-                <li class="songItem">
-                    <span>02</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="2"></i>
-                </li>
-                <li class="songItem">
-                    <span>03</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="3"></i>
-                </li>
-                <li class="songItem">
-                    <span>04</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="4"></i>
-                </li>
-                <li class="songItem">
-                    <span>05</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="5"></i>
-                </li>
-                <li class="songItem">
-                    <span>06</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="6"></i>
-                </li>
-                <li class="songItem">
-                    <span>07</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="7"></i>
-                </li>
-                <li class="songItem">
-                    <span>08</span>
-                    <img src="./img/1.png" alt="Alan">
-                    <h5>
-                        On My Way
-                        <div class="subtitle">Alan walker</div>
-                    </h5>
-                    <i class="bi playcircle bi-play-circle-fill" id="8"></i>
-                </li>
-            </div>
+            <!-- JS sẽ render danh sách bài hát vào đây -->
+            <div class="menu_song"></div>
         </div>
 
+        <!-- ═══ MAIN CONTENT ═══ -->
         <div class="song_side">
             <nav>
                 <ul>
@@ -110,18 +39,10 @@
                     <img src="img/logo.png" alt="User" title="Kyren Huy">
                 </div>
             </nav>
-            <div class="content">
-                <h1>Alen Walker-Fade</h1>
-                <p>
-                    You were the shadow to light Did you feel us Another start You fade
-                    <br>
-                    Away afraid our aim is out of sight Wanna see us Alive
-                </p>
-                <div class="buttons">
-                    <button>PLAY</button>
-                    <button>FLlOW</button>
-                </div>
-            </div>
+
+            <!-- JS sẽ render featured section vào đây -->
+            <div class="content"></div>
+
             <div class="popular_song">
                 <div class="h4">
                     <h4>Popular Song</h4>
@@ -130,99 +51,10 @@
                         <i id="right_scroll" class="bi bi-arrow-right-short"></i>
                     </div>
                 </div>
-                <div class="pop_song">
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="9"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="10"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="11"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="12"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="13"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="14"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="15"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="16"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                    <li class="songItem">
-                        <div class="img_play">
-                            <img src="./img/1.png" alt="alan">
-                            <i class="bi playcircle bi-play-circle-fill" id="17"></i>
-                        </div>
-                        <h5>
-                            On My Way <br>
-                            <div class="subtitle">Alan walker</div>
-                        </h5>
-                    </li>
-                </div>
+                <!-- JS sẽ render popular songs vào đây -->
+                <div class="pop_song"></div>
             </div>
+
             <div class="popular_artists">
                 <div class="h4">
                     <h4>Popular Artists</h4>
@@ -231,58 +63,22 @@
                         <i id="right_scrolls" class="bi bi-arrow-right-short"></i>
                     </div>
                 </div>
-                <div class="item">
-                    <li>
-                        <img src="./img/2.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/1.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/3.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/4.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/5.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/6.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/7.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/8.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/9.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/10.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/11.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <li>
-                        <img src="./img/12.png" alt="Arjit Singh" title="Arjit Singh">
-                    </li>
-                    <!-- change all img -->
-                </div>
+                <!-- JS sẽ render artists vào đây -->
+                <div class="item"></div>
             </div>
         </div>
 
+        <!-- ═══ PLAYER BAR ═══ -->
         <div class="master_play">
             <div class="wave">
                 <div class="wave1"></div>
                 <div class="wave1"></div>
                 <div class="wave1"></div>
             </div>
-            <img src="img/0.png" alt="Alan" id="poster_master_play">
+            <img src="img/0.png" alt="Album Art" id="poster_master_play">
             <h5 id="title">
-                Edit Kyren_ <br>
-                <div class="subtitle">Kyren Huy</div>
+                Select a song<br>
+                <div class="subtitle">to start playing</div>
             </h5>
             <div class="icon">
                 <i class="bi bi-skip-start-fill" id="back"></i>
@@ -296,18 +92,20 @@
                 <div class="dot"></div>
             </div>
             <span id="currentEnd">0:00</span>
-
             <div class="vol">
                 <i class="bi bi-volume-down-fill" id="vol_icon"></i>
                 <input type="range" id="vol" min="0" value="30" max="100">
                 <div class="vol_bar"></div>
                 <div class="dot" id="vol_dot"></div>
             </div>
-
         </div>
     </header>
 
-    <script src="./app.js"></script>
+    <!-- JS Modules — thứ tự quan trọng: player & ui trước, app.js cuối cùng -->
+    <script src="./js/player.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/app.js"></script>
 </body>
 
 </html>
