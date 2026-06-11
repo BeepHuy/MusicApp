@@ -73,19 +73,18 @@ const Player = (() => {
     currentIndex = idx;
     const song = allSongs[idx];
 
-    audio.src = `./audio/${song.id}.mp3`;
-    els.poster.src = `./img/${song.id}.png`;
+    // Hỗ trợ cả format cũ (id) và mới (file/cover từ Supabase)
+    audio.src = song.file || `./audio/${song.id}.mp3`;
+    els.poster.src = song.cover || `./img/${song.id}.png`;
     els.title.innerHTML = `${song.title}<br><div class="subtitle">${song.artist}</div>`;
 
     audio.play();
     _setPlayingState(true);
     _saveState();
 
-    document.dispatchEvent(
-      new CustomEvent("songChanged", {
-        detail: { id: song.id },
-      }),
-    );
+    document.dispatchEvent(new CustomEvent('songChanged', {
+      detail: { id: song.id }
+    }));
   }
 
   // ══════════════════════════
@@ -328,7 +327,7 @@ const Player = (() => {
         if (idx !== -1) {
           currentIndex = idx;
           const song = allSongs[idx];
-          els.poster.src = `./img/${song.id}.png`;
+          els.poster.src = song.cover || `./img/${song.id}.png`;
           els.title.innerHTML = `${song.title}<br><div class="subtitle">${song.artist}</div>`;
           document.dispatchEvent(
             new CustomEvent("songChanged", {
