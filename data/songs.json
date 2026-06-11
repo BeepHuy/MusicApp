@@ -37,6 +37,14 @@
     { "name": "Benson Boone", "img": 11 },
     { "name": "Ava Max", "img": 12 }
   ],
+  "newReleases": [
+    { "id": 17, "title": "LIKE THAT", "artist": "BABYMONSTER" },
+    { "id": 18, "title": "Dynamite", "artist": "BTS" },
+    { "id": 19, "title": "BOOMBAYAH", "artist": "Blackpink" },
+    { "id": 20, "title": "LOSER", "artist": "Bigbang" },
+    { "id": 21, "title": "Comethru", "artist": "Jeremy Zucker" },
+    { "id": 22, "title": "The River", "artist": "Axel Johansson" }
+  ],
   "weekly": {
     "kpop": [
       { "id": 17, "title": "LIKE THAT", "artist": "BABYMONSTER" },

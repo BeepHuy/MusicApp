@@ -1,55 +1,61 @@
 // ═══════════════════════════════════════════
-// player.js — Music Player Module
-// Handles: play/pause, next/prev, progress,
-//          volume, shuffle, repeat
+// player.js — Music Player Module (v2)
+// Tuần 2: + shuffle, repeat, smooth seek,
+//         + localStorage state, input event
 // ═══════════════════════════════════════════
 
 const Player = (() => {
   // ── State ──
   const audio = new Audio();
-  let allSongs = [];       // flat list of all songs (from all sections)
-  let currentIndex = -1;   // index in allSongs
+  let allSongs = [];
+  let currentIndex = -1;
   let isPlaying = false;
   let isShuffle = false;
-  let repeatMode = 'none'; // 'none' | 'one' | 'all'
+  let repeatMode = "none"; // 'none' | 'one' | 'all'
+  let isSeeking = false; // tránh xung đột khi kéo thanh progress
 
-  // ── DOM refs (cached on init) ──
+  // ── DOM refs ──
   let els = {};
 
-  // ── Public: init ──
+  // ══════════════════════════
+  // PUBLIC: init
+  // ══════════════════════════
   function init(songList) {
     allSongs = songList;
-    audio.volume = 0.3;
 
     els = {
-      masterPlay:   document.getElementById('masterPlay'),
-      wave:         document.querySelector('.wave'),
-      poster:       document.getElementById('poster_master_play'),
-      title:        document.getElementById('title'),
-      currentStart: document.getElementById('currentStart'),
-      currentEnd:   document.getElementById('currentEnd'),
-      seek:         document.getElementById('seek'),
-      bar2:         document.getElementById('bar2'),
-      dot:          document.querySelector('.bar .dot'),
-      vol:          document.getElementById('vol'),
-      volIcon:      document.getElementById('vol_icon'),
-      volBar:       document.querySelector('.vol_bar'),
-      volDot:       document.getElementById('vol_dot'),
-      back:         document.getElementById('back'),
-      next:         document.getElementById('next'),
+      masterPlay: document.getElementById("masterPlay"),
+      wave: document.querySelector(".wave"),
+      poster: document.getElementById("poster_master_play"),
+      title: document.getElementById("title"),
+      currentStart: document.getElementById("currentStart"),
+      currentEnd: document.getElementById("currentEnd"),
+      seek: document.getElementById("seek"),
+      bar2: document.getElementById("bar2"),
+      dot: document.querySelector(".bar .dot"),
+      vol: document.getElementById("vol"),
+      volIcon: document.getElementById("vol_icon"),
+      volBar: document.querySelector(".vol_bar"),
+      volDot: document.getElementById("vol_dot"),
+      back: document.getElementById("back"),
+      next: document.getElementById("next"),
+      shuffleBtn: document.getElementById("shuffleBtn"),
+      repeatBtn: document.getElementById("repeatBtn"),
     };
 
     _bindEvents();
+    _restoreState(); // khôi phục từ localStorage
   }
 
-  // ── Public: play a song by its ID ──
+  // ══════════════════════════
+  // PUBLIC API
+  // ══════════════════════════
   function playById(id) {
-    const idx = allSongs.findIndex(s => s.id === id);
+    const idx = allSongs.findIndex((s) => s.id === id);
     if (idx === -1) return;
     _playSongAt(idx);
   }
 
-  // ── Public: get current song id ──
   function getCurrentId() {
     if (currentIndex < 0) return null;
     return allSongs[currentIndex]?.id ?? null;
@@ -59,7 +65,9 @@ const Player = (() => {
     return isPlaying;
   }
 
-  // ── Internal: play song at index ──
+  // ══════════════════════════
+  // PLAY SONG
+  // ══════════════════════════
   function _playSongAt(idx) {
     if (idx < 0 || idx >= allSongs.length) return;
     currentIndex = idx;
@@ -71,17 +79,20 @@ const Player = (() => {
 
     audio.play();
     _setPlayingState(true);
+    _saveState();
 
-    // Notify UI to update icons
-    document.dispatchEvent(new CustomEvent('songChanged', {
-      detail: { id: song.id }
-    }));
+    document.dispatchEvent(
+      new CustomEvent("songChanged", {
+        detail: { id: song.id },
+      }),
+    );
   }
 
-  // ── Play / Pause toggle ──
+  // ══════════════════════════
+  // PLAY / PAUSE
+  // ══════════════════════════
   function _togglePlay() {
     if (currentIndex < 0) {
-      // Nothing selected yet — play the first song
       if (allSongs.length > 0) _playSongAt(0);
       return;
     }
@@ -96,18 +107,14 @@ const Player = (() => {
 
   function _setPlayingState(playing) {
     isPlaying = playing;
-    if (playing) {
-      els.masterPlay.classList.remove('bi-play-fill');
-      els.masterPlay.classList.add('bi-pause-fill');
-      els.wave.classList.add('active2');
-    } else {
-      els.masterPlay.classList.add('bi-play-fill');
-      els.masterPlay.classList.remove('bi-pause-fill');
-      els.wave.classList.remove('active2');
-    }
+    els.masterPlay.classList.toggle("bi-play-fill", !playing);
+    els.masterPlay.classList.toggle("bi-pause-fill", playing);
+    els.wave.classList.toggle("active2", playing);
   }
 
-  // ── Next / Previous ──
+  // ══════════════════════════
+  // NEXT / PREVIOUS
+  // ══════════════════════════
   function _playNext() {
     if (allSongs.length === 0) return;
 
@@ -121,104 +128,268 @@ const Player = (() => {
     }
 
     let nextIdx = currentIndex + 1;
-    if (nextIdx >= allSongs.length) {
-      nextIdx = 0; // loop back to start
-    }
+    if (nextIdx >= allSongs.length) nextIdx = 0;
     _playSongAt(nextIdx);
   }
 
   function _playPrev() {
     if (allSongs.length === 0) return;
-
-    // If more than 3 seconds in, restart current song
     if (audio.currentTime > 3) {
       audio.currentTime = 0;
       return;
     }
-
     let prevIdx = currentIndex - 1;
-    if (prevIdx < 0) {
-      prevIdx = allSongs.length - 1;
-    }
+    if (prevIdx < 0) prevIdx = allSongs.length - 1;
     _playSongAt(prevIdx);
   }
 
-  // ── Progress bar ──
+  // ══════════════════════════
+  // SHUFFLE
+  // ══════════════════════════
+  function _toggleShuffle() {
+    isShuffle = !isShuffle;
+    els.shuffleBtn?.classList.toggle("active-control", isShuffle);
+    _saveState();
+  }
+
+  // ══════════════════════════
+  // REPEAT: none → all → one → none
+  // ══════════════════════════
+  function _toggleRepeat() {
+    const modes = ["none", "all", "one"];
+    const nextIdx = (modes.indexOf(repeatMode) + 1) % modes.length;
+    repeatMode = modes[nextIdx];
+
+    if (!els.repeatBtn) return;
+
+    // Reset classes
+    els.repeatBtn.classList.remove(
+      "active-control",
+      "bi-repeat",
+      "bi-repeat-1",
+    );
+
+    if (repeatMode === "none") {
+      els.repeatBtn.classList.add("bi-repeat");
+    } else if (repeatMode === "all") {
+      els.repeatBtn.classList.add("bi-repeat", "active-control");
+    } else {
+      els.repeatBtn.classList.add("bi-repeat-1", "active-control");
+    }
+
+    _saveState();
+  }
+
+  // ══════════════════════════
+  // PROGRESS BAR (smooth seek)
+  // ══════════════════════════
   function _updateProgress() {
-    if (!audio.duration) return;
+    if (!audio.duration || isSeeking) return;
 
     const curr = audio.currentTime;
     const dur = audio.duration;
 
-    // Update time labels
     els.currentStart.textContent = _formatTime(curr);
     els.currentEnd.textContent = _formatTime(dur);
 
-    // Update bar
     const pct = (curr / dur) * 100;
     els.seek.value = pct;
     els.bar2.style.width = `${pct}%`;
     els.dot.style.left = `${pct}%`;
   }
 
-  function _onSeek() {
-    if (!audio.duration) return;
-    audio.currentTime = (els.seek.value * audio.duration) / 100;
+  function _onSeekStart() {
+    isSeeking = true;
   }
 
-  // ── Volume ──
+  function _onSeekInput() {
+    // Preview vị trí khi đang kéo (chưa nhảy audio)
+    const pct = els.seek.value;
+    els.bar2.style.width = `${pct}%`;
+    els.dot.style.left = `${pct}%`;
+
+    if (audio.duration) {
+      els.currentStart.textContent = _formatTime((pct / 100) * audio.duration);
+    }
+  }
+
+  function _onSeekEnd() {
+    if (audio.duration) {
+      audio.currentTime = (els.seek.value * audio.duration) / 100;
+    }
+    isSeeking = false;
+  }
+
+  // ══════════════════════════
+  // VOLUME
+  // ══════════════════════════
   function _onVolumeChange() {
     const val = parseInt(els.vol.value);
     audio.volume = val / 100;
     els.volBar.style.width = `${val}%`;
     els.volDot.style.left = `${val}%`;
 
-    // Update icon
-    els.volIcon.classList.remove('bi-volume-down-fill', 'bi-volume-mute-fill', 'bi-volume-up-fill');
+    els.volIcon.classList.remove(
+      "bi-volume-down-fill",
+      "bi-volume-mute-fill",
+      "bi-volume-up-fill",
+    );
     if (val === 0) {
-      els.volIcon.classList.add('bi-volume-mute-fill');
+      els.volIcon.classList.add("bi-volume-mute-fill");
     } else if (val <= 50) {
-      els.volIcon.classList.add('bi-volume-down-fill');
+      els.volIcon.classList.add("bi-volume-down-fill");
     } else {
-      els.volIcon.classList.add('bi-volume-up-fill');
+      els.volIcon.classList.add("bi-volume-up-fill");
     }
+
+    _saveState();
   }
 
-  // ── Song ended ──
+  // ══════════════════════════
+  // SONG ENDED
+  // ══════════════════════════
   function _onSongEnd() {
-    if (repeatMode === 'one') {
+    if (repeatMode === "one") {
       audio.currentTime = 0;
       audio.play();
       return;
     }
-    if (repeatMode === 'all' || currentIndex < allSongs.length - 1) {
+    if (repeatMode === "all") {
+      _playNext();
+    } else if (currentIndex < allSongs.length - 1) {
       _playNext();
     } else {
       _setPlayingState(false);
     }
   }
 
-  // ── Helper: format seconds to m:ss ──
+  // ══════════════════════════
+  // LOCALSTORAGE
+  // ══════════════════════════
+  function _saveState() {
+    const state = {
+      songId: getCurrentId(),
+      volume: parseInt(els.vol?.value || 30),
+      isShuffle,
+      repeatMode,
+    };
+    try {
+      localStorage.setItem("musicAppState", JSON.stringify(state));
+    } catch (e) {
+      /* quota exceeded or private mode */
+    }
+  }
+
+  function _restoreState() {
+    try {
+      const raw = localStorage.getItem("musicAppState");
+      if (!raw) return;
+      const state = JSON.parse(raw);
+
+      // Volume
+      if (state.volume !== undefined && els.vol) {
+        els.vol.value = state.volume;
+        audio.volume = state.volume / 100;
+        _onVolumeChange();
+      }
+
+      // Shuffle
+      if (state.isShuffle) {
+        isShuffle = true;
+        els.shuffleBtn?.classList.add("active-control");
+      }
+
+      // Repeat
+      if (state.repeatMode && state.repeatMode !== "none") {
+        repeatMode = state.repeatMode;
+        _toggleRepeat(); // cycle đến mode đã lưu
+        // toggleRepeat sẽ nhảy sang mode tiếp theo, nên cần set lại
+        // Cách đơn giản: set trực tiếp UI
+        repeatMode = state.repeatMode;
+        if (els.repeatBtn) {
+          els.repeatBtn.classList.remove(
+            "bi-repeat",
+            "bi-repeat-1",
+            "active-control",
+          );
+          if (repeatMode === "all") {
+            els.repeatBtn.classList.add("bi-repeat", "active-control");
+          } else if (repeatMode === "one") {
+            els.repeatBtn.classList.add("bi-repeat-1", "active-control");
+          } else {
+            els.repeatBtn.classList.add("bi-repeat");
+          }
+        }
+      }
+
+      // Bài hát cuối cùng (chỉ hiện info, không tự play)
+      if (state.songId) {
+        const idx = allSongs.findIndex((s) => s.id === state.songId);
+        if (idx !== -1) {
+          currentIndex = idx;
+          const song = allSongs[idx];
+          els.poster.src = `./img/${song.id}.png`;
+          els.title.innerHTML = `${song.title}<br><div class="subtitle">${song.artist}</div>`;
+          document.dispatchEvent(
+            new CustomEvent("songChanged", {
+              detail: { id: song.id },
+            }),
+          );
+        }
+      }
+    } catch (e) {
+      /* corrupted data */
+    }
+  }
+
+  // ══════════════════════════
+  // HELPERS
+  // ══════════════════════════
   function _formatTime(seconds) {
-    if (isNaN(seconds)) return '0:00';
+    if (isNaN(seconds)) return "0:00";
     const min = Math.floor(seconds / 60);
     let sec = Math.floor(seconds % 60);
     if (sec < 10) sec = `0${sec}`;
     return `${min}:${sec}`;
   }
 
-  // ── Bind all events ──
+  // ══════════════════════════
+  // EVENTS
+  // ══════════════════════════
   function _bindEvents() {
-    els.masterPlay.addEventListener('click', _togglePlay);
-    els.next.addEventListener('click', _playNext);
-    els.back.addEventListener('click', _playPrev);
-    els.seek.addEventListener('change', _onSeek);
-    els.vol.addEventListener('change', _onVolumeChange);
-    els.vol.addEventListener('input', _onVolumeChange);
-    audio.addEventListener('timeupdate', _updateProgress);
-    audio.addEventListener('ended', _onSongEnd);
+    els.masterPlay.addEventListener("click", _togglePlay);
+    els.next.addEventListener("click", _playNext);
+    els.back.addEventListener("click", _playPrev);
+
+    // Smooth seek: mousedown → input (preview) → mouseup/change (commit)
+    els.seek.addEventListener("mousedown", _onSeekStart);
+    els.seek.addEventListener("touchstart", _onSeekStart);
+    els.seek.addEventListener("input", _onSeekInput);
+    els.seek.addEventListener("mouseup", _onSeekEnd);
+    els.seek.addEventListener("touchend", _onSeekEnd);
+    els.seek.addEventListener("change", _onSeekEnd);
+
+    els.vol.addEventListener("input", _onVolumeChange);
+
+    audio.addEventListener("timeupdate", _updateProgress);
+    audio.addEventListener("ended", _onSongEnd);
+
+    // Shuffle & Repeat buttons
+    els.shuffleBtn?.addEventListener("click", _toggleShuffle);
+    els.repeatBtn?.addEventListener("click", _toggleRepeat);
   }
 
-  // ── Expose public API ──
-  return { init, playById, getCurrentId, getIsPlaying };
+  // Toggle pause bài hiện tại (không restart)
+  function togglePause() {
+    if (currentIndex < 0) return;
+    if (audio.paused) {
+      audio.play();
+      _setPlayingState(true);
+    } else {
+      audio.pause();
+      _setPlayingState(false);
+    }
+  }
+
+  return { init, playById, getCurrentId, getIsPlaying, togglePause };
 })();
