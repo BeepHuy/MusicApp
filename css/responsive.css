@@ -6,15 +6,26 @@
      Mobile:   < 768px
    ═══════════════════════════════════════════ */
 
+/* ── Anti horizontal scroll — áp dụng mọi kích thước ── */
+header .song_side .popular_artists .item,
+header .song_side .popular_song .pop_song {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+header .song_side .new_releases .release_grid {
+  overflow: hidden;
+}
+
 /* ── Hamburger Menu Button (ẩn trên desktop) ── */
 .menu-toggle {
   display: none;
   position: fixed;
-  top: 12px;
+  top: 20px;
   left: 12px;
   z-index: 1000;
-  width: 40px;
-  height: 40px;
+  width: 25px;
+  height: 25px;
   background: #111727;
   border: 1px solid rgba(54, 226, 236, 0.3);
   border-radius: 8px;
@@ -22,7 +33,7 @@
   align-items: center;
   justify-content: center;
   color: #36e2ec;
-  font-size: 22px;
+  font-size: 18px;
   transition: 0.3s;
 }
 
@@ -229,10 +240,10 @@
     margin-right: 15px;
   }
 
+  /* Ẩn search trên mobile — không cần vì đã có sidebar */
   header .song_side nav .search,
   header .song_side2 nav .search {
-    width: 50%;
-    order: 3;
+    display: none;
   }
 
   header .song_side nav .user,
@@ -421,6 +432,26 @@
   header .song_side2 .content .contentList .contentItem li span {
     font-size: 13px;
     padding-right: 12px;
+  }
+
+  /* ═══ Weekly Page Mobile Fix ═══ */
+  header .song_side2 .content .contentList .contentItem li {
+    position: relative;
+    padding: 8px 45px 8px 15px;
+  }
+
+  header .song_side2 .content .contentList .contentItem li .bi {
+    position: absolute;
+    right: 12px;
+    left: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+  }
+
+  header .song_side2 .content .contentList .contentItem li img {
+    width: 50px;
+    height: 50px;
   }
 }
 

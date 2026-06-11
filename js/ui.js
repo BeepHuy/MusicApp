@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════
-// ui.js — UI Rendering Module
+// ui.js — UI Rendering Module (v2)
 // Renders HTML from data, handles scrolling,
-// highlights active song
+// highlights active song, New Releases grid
 // ═══════════════════════════════════════════
 
 const UI = (() => {
@@ -11,38 +11,34 @@ const UI = (() => {
     data = songsData;
     const page = _detectPage();
 
-    // Render sidebar (shared between pages)
     _renderSidebar(page);
 
-    // Render page-specific content
     if (page === 'index') {
       _renderFeatured();
       _renderPopularSongs();
       _renderArtists();
+      _renderNewReleases();
       _initScrollButtons();
     } else if (page === 'week') {
       _renderWeekly();
     }
 
-    // Listen for song changes from Player
     document.addEventListener('songChanged', (e) => {
       _highlightSong(e.detail.id);
     });
   }
 
-  // ── Detect which page we're on ──
   function _detectPage() {
     const path = window.location.pathname;
     if (path.includes('week')) return 'week';
     return 'index';
   }
 
-  // ── Sidebar: Playlist song list ──
+  // ── Sidebar ──
   function _renderSidebar(page) {
     const container = document.querySelector('.menu_song');
     if (!container) return;
 
-    // Set active nav link
     const playlistLinks = document.querySelectorAll('.playlist h4');
     playlistLinks.forEach(h4 => h4.classList.remove('active'));
     if (page === 'index') {
@@ -51,7 +47,6 @@ const UI = (() => {
       playlistLinks[1]?.classList.add('active');
     }
 
-    // Render song items
     container.innerHTML = data.sidebar.map((song, i) => `
       <li class="songItem" data-id="${song.id}">
         <span>${String(i + 1).padStart(2, '0')}</span>
@@ -64,11 +59,10 @@ const UI = (() => {
       </li>
     `).join('');
 
-    // Bind click events
     _bindPlayButtons(container);
   }
 
-  // ── Featured section (index page) ──
+  // ── Featured ──
   function _renderFeatured() {
     const content = document.querySelector('.song_side .content');
     if (!content || !data.featured) return;
@@ -83,7 +77,6 @@ const UI = (() => {
       </div>
     `;
 
-    // PLAY button plays the first sidebar song
     document.getElementById('btn-play')?.addEventListener('click', () => {
       if (data.sidebar.length > 0) {
         Player.playById(data.sidebar[0].id);
@@ -91,7 +84,7 @@ const UI = (() => {
     });
   }
 
-  // ── Popular Songs carousel ──
+  // ── Popular Songs ──
   function _renderPopularSongs() {
     const container = document.querySelector('.pop_song');
     if (!container) return;
@@ -112,7 +105,7 @@ const UI = (() => {
     _bindPlayButtons(container);
   }
 
-  // ── Popular Artists carousel ──
+  // ── Popular Artists ──
   function _renderArtists() {
     const container = document.querySelector('.popular_artists .item');
     if (!container) return;
@@ -124,7 +117,40 @@ const UI = (() => {
     `).join('');
   }
 
-  // ── Weekly Rankings (week page) ──
+  // ── New Releases (grid cards) ──
+  function _renderNewReleases() {
+    if (!data.newReleases || data.newReleases.length === 0) return;
+
+    const songSide = document.querySelector('.song_side');
+    if (!songSide) return;
+
+    // Kiểm tra đã render chưa
+    if (songSide.querySelector('.new_releases')) return;
+
+    const section = document.createElement('div');
+    section.className = 'new_releases';
+    section.innerHTML = `
+      <div class="h4">
+        <h4>New Releases</h4>
+      </div>
+      <div class="release_grid">
+        ${data.newReleases.map(song => `
+          <li class="release_card songItem" data-id="${song.id}">
+            <img src="./img/${song.id}.png" alt="${song.artist}">
+            <h5>
+              ${song.title}
+              <div class="subtitle">${song.artist}</div>
+            </h5>
+          </li>
+        `).join('')}
+      </div>
+    `;
+
+    songSide.appendChild(section);
+    _bindPlayButtons(section);
+  }
+
+  // ── Weekly Rankings ──
   function _renderWeekly() {
     const contentList = document.querySelector('.contentList');
     if (!contentList || !data.weekly) return;
@@ -159,26 +185,52 @@ const UI = (() => {
     _bindWeeklyHighlight();
   }
 
-  // ── Bind play buttons in a container ──
+  // ── Bind play buttons ──
   function _bindPlayButtons(container) {
     container.querySelectorAll('.playcircle').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
         const songId = parseInt(e.target.dataset.songId);
-        if (songId) Player.playById(songId);
+        if (!songId) return;
+
+        // Nếu đang phát bài này → pause/resume, không restart
+        if (songId === Player.getCurrentId()) {
+          Player.togglePause();
+          // Cập nhật icon
+          const playing = Player.getIsPlaying();
+          document.querySelectorAll(`.playcircle[data-song-id="${songId}"]`).forEach(el => {
+            el.classList.toggle('bi-play-circle-fill', !playing);
+            el.classList.toggle('bi-pause-circle-fill', playing);
+          });
+        } else {
+          Player.playById(songId);
+        }
       });
     });
 
-    // Also allow clicking the whole li
-    container.querySelectorAll('.songItem, .songItem2').forEach(li => {
-      li.addEventListener('click', () => {
+    container.querySelectorAll('.songItem, .songItem2, .release_card').forEach(li => {
+      li.addEventListener('click', (e) => {
+        // Tránh double trigger khi click vào nút play
+        if (e.target.closest('.playcircle')) return;
+
         const songId = parseInt(li.dataset.id);
-        if (songId) Player.playById(songId);
+        if (!songId) return;
+
+        if (songId === Player.getCurrentId()) {
+          Player.togglePause();
+          const playing = Player.getIsPlaying();
+          document.querySelectorAll(`.playcircle[data-song-id="${songId}"]`).forEach(el => {
+            el.classList.toggle('bi-play-circle-fill', !playing);
+            el.classList.toggle('bi-pause-circle-fill', playing);
+          });
+        } else {
+          Player.playById(songId);
+        }
       });
     });
   }
 
-  // ── Weekly: highlight active item ──
+  // ── Weekly highlight ──
   function _bindWeeklyHighlight() {
     document.querySelectorAll('.weekbi').forEach(item => {
       item.addEventListener('click', function () {
@@ -194,20 +246,17 @@ const UI = (() => {
     });
   }
 
-  // ── Highlight currently playing song ──
+  // ── Highlight playing song ──
   function _highlightSong(songId) {
-    // Reset all play icons
     document.querySelectorAll('.playcircle').forEach(el => {
       el.classList.add('bi-play-circle-fill');
       el.classList.remove('bi-pause-circle-fill');
     });
 
-    // Reset all backgrounds
     document.querySelectorAll('.songItem').forEach(el => {
       el.style.background = '';
     });
 
-    // Highlight the active one
     const activeBtn = document.querySelector(`.playcircle[data-song-id="${songId}"]`);
     if (activeBtn) {
       activeBtn.classList.remove('bi-play-circle-fill');
@@ -216,13 +265,12 @@ const UI = (() => {
 
     const activeLi = document.querySelector(`.menu_song .songItem[data-id="${songId}"]`);
     if (activeLi) {
-      activeLi.style.background = 'rgb(105, 105, 170, .2)';
+      activeLi.style.background = 'rgba(54, 226, 236, 0.1)';
     }
   }
 
-  // ── Scroll buttons for carousels ──
+  // ── Scroll buttons ──
   function _initScrollButtons() {
-    // Popular Songs scroll
     const popSong = document.querySelector('.pop_song');
     const leftScroll = document.getElementById('left_scroll');
     const rightScroll = document.getElementById('right_scroll');
@@ -232,7 +280,6 @@ const UI = (() => {
       rightScroll.addEventListener('click', () => { popSong.scrollLeft += 330; });
     }
 
-    // Popular Artists scroll
     const artistList = document.querySelector('.popular_artists .item');
     const leftScrolls = document.getElementById('left_scrolls');
     const rightScrolls = document.getElementById('right_scrolls');
