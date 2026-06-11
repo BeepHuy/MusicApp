@@ -50,7 +50,7 @@ const UI = (() => {
     container.innerHTML = data.sidebar.map((song, i) => `
       <li class="songItem" data-id="${song.id}">
         <span>${String(i + 1).padStart(2, '0')}</span>
-         <img src="${song.cover}" alt="${song.artist}">
+        <img src="./img/${song.id}.png" alt="${song.artist}">
         <h5>
           ${song.title}
           <div class="subtitle">${song.artist}</div>
@@ -92,7 +92,7 @@ const UI = (() => {
     container.innerHTML = data.popularSongs.map(song => `
       <li class="songItem" data-id="${song.id}">
         <div class="img_play">
-          <img src="${song.cover}" alt="${song.artist}">
+          <img src="./img/${song.id}.png" alt="${song.artist}">
           <i class="bi playcircle bi-play-circle-fill" data-song-id="${song.id}"></i>
         </div>
         <h5>
@@ -112,7 +112,7 @@ const UI = (() => {
 
     container.innerHTML = data.artists.map(artist => `
       <li>
-        <img src="${artist.avatar}" alt="${artist.name}" title="${artist.name}">
+        <img src="./img/${artist.img}.png" alt="${artist.name}" title="${artist.name}">
       </li>
     `).join('');
   }
@@ -136,7 +136,7 @@ const UI = (() => {
       <div class="release_grid">
         ${data.newReleases.map(song => `
           <li class="release_card songItem" data-id="${song.id}">
-            <img src="${song.cover}" alt="${song.artist}">
+            <img src="./img/${song.id}.png" alt="${song.artist}">
             <h5>
               ${song.title}
               <div class="subtitle">${song.artist}</div>
@@ -169,7 +169,7 @@ const UI = (() => {
           ${songs.map((song, i) => `
             <li class="songItem2${i === 0 && cat.key === 'kpop' ? ' active6' : ''}" data-id="${song.id}">
               <span>${String(i + 1).padStart(2, '0')}</span>
-              <img src="${song.cover}" alt="${song.artist}" width="10%">
+              <img src="./img/${song.id}.png" alt="${song.artist}" width="10%">
               <h5>
                 ${song.title}
                 <div class="subtitle">${song.artist}</div>
@@ -190,7 +190,7 @@ const UI = (() => {
     container.querySelectorAll('.playcircle').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const songId = e.target.dataset.songId;
+        const songId = parseInt(e.target.dataset.songId);
         if (!songId) return;
 
         // Nếu đang phát bài này → pause/resume, không restart
@@ -213,7 +213,7 @@ const UI = (() => {
         // Tránh double trigger khi click vào nút play
         if (e.target.closest('.playcircle')) return;
 
-        const songId = li.dataset.id;
+        const songId = parseInt(li.dataset.id);
         if (!songId) return;
 
         if (songId === Player.getCurrentId()) {
