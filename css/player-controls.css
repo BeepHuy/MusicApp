@@ -1,0 +1,61 @@
+/* ═══════════════════════════════════════════
+   player-controls.css — Shuffle, Repeat, Seek
+   Tuần 2: styling cho các nút điều khiển mới
+   ═══════════════════════════════════════════ */
+
+/* ── Shuffle & Repeat buttons ── */
+header .master_play .icon #shuffleBtn,
+header .master_play .icon #repeatBtn {
+  font-size: 16px;
+  cursor: pointer;
+  color: #4c5262;
+  transition: color 0.3s, transform 0.2s;
+  padding: 2px 4px;
+}
+
+header .master_play .icon #shuffleBtn:hover,
+header .master_play .icon #repeatBtn:hover {
+  color: #a4a8b4;
+}
+
+/* Active state: khi shuffle/repeat đang bật */
+header .master_play .icon .active-control {
+  color: #36e2ec !important;
+}
+
+header .master_play .icon .active-control:hover {
+  color: #5af0f5 !important;
+}
+
+/* Spacing cho icon group mới (5 nút thay vì 3) */
+header .master_play .icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+header .master_play .icon #shuffleBtn {
+  margin-right: 4px;
+}
+
+header .master_play .icon #repeatBtn {
+  margin-left: 4px;
+}
+
+/* ── Smooth seek: bỏ transition khi đang kéo ── */
+header .master_play .bar .bar2,
+header .master_play .bar .dot {
+  transition: none;
+}
+
+/* Seek range: mở rộng vùng click ── */
+header .master_play .bar input[type="range"] {
+  height: 14px;
+  top: -7px;
+  cursor: pointer;
+}
+
+/* ── Tooltip cho repeat mode ── */
+#repeatBtn[title]::after {
+  content: none;
+}
