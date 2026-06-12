@@ -1,0 +1,261 @@
+/* ═══════════════════════════════════════════
+   auth.css — Login / Register Modal
+   ═══════════════════════════════════════════ */
+
+/* ── Modal overlay ── */
+.auth-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-overlay.active {
+  display: flex;
+}
+
+/* ── Modal box ── */
+.auth-modal {
+  width: 380px;
+  max-width: 90vw;
+  background: rgba(15, 20, 40, 0.95);
+  border: 1px solid rgba(54, 226, 236, 0.15);
+  border-radius: 16px;
+  padding: 32px;
+  color: #e0e4f0;
+  position: relative;
+}
+
+.auth-modal h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.auth-modal .auth-subtitle {
+  font-size: 12px;
+  color: #7a7f94;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* ── Close button ── */
+.auth-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #7a7f94;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.auth-close:hover {
+  color: #e0e4f0;
+}
+
+/* ── Google button ── */
+.auth-google {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(120, 130, 170, 0.2);
+  border-radius: 10px;
+  background: rgba(120, 130, 170, 0.06);
+  color: #e0e4f0;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+
+.auth-google:hover {
+  background: rgba(54, 226, 236, 0.08);
+  border-color: rgba(54, 226, 236, 0.2);
+}
+
+.auth-google img {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Divider ── */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  gap: 12px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(120, 130, 170, 0.15);
+}
+
+.auth-divider span {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+/* ── Form inputs ── */
+.auth-input {
+  width: 100%;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border: 1px solid rgba(120, 130, 170, 0.15);
+  border-radius: 10px;
+  background: rgba(120, 130, 170, 0.06);
+  color: #e0e4f0;
+  font-size: 13px;
+  font-family: 'Poppins', sans-serif;
+  outline: none;
+  transition: 0.2s;
+}
+
+.auth-input:focus {
+  border-color: rgba(54, 226, 236, 0.4);
+}
+
+.auth-input::placeholder {
+  color: #5a5f74;
+}
+
+/* ── Submit button ── */
+.auth-submit {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 4px;
+}
+
+.auth-submit:hover {
+  box-shadow: 0 0 20px rgba(54, 226, 236, 0.2);
+}
+
+.auth-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Error message ── */
+.auth-error {
+  color: #f09595;
+  font-size: 11px;
+  text-align: center;
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* ── Toggle link ── */
+.auth-toggle {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 12px;
+  color: #7a7f94;
+}
+
+.auth-toggle a {
+  color: #36e2ec;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.auth-toggle a:hover {
+  text-decoration: underline;
+}
+
+/* ── User menu (khi đã login) ── */
+.user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.user-menu img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.user-menu .user-name {
+  font-size: 12px;
+  color: #e0e4f0;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Dropdown ── */
+.user-dropdown {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background: rgba(15, 20, 40, 0.95);
+  border: 1px solid rgba(54, 226, 236, 0.15);
+  border-radius: 10px;
+  padding: 8px 0;
+  min-width: 140px;
+  z-index: 100;
+}
+
+.user-dropdown.active {
+  display: block;
+}
+
+.user-dropdown a {
+  display: block;
+  padding: 8px 16px;
+  font-size: 12px;
+  color: #e0e4f0;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.user-dropdown a:hover {
+  background: rgba(54, 226, 236, 0.08);
+}
+
+.user-dropdown .logout-btn {
+  color: #f09595;
+  border-top: 1px solid rgba(120, 130, 170, 0.1);
+  margin-top: 4px;
+  padding-top: 10px;
+  cursor: pointer;
+}
+
+/* ── Fix: ghi đè CSS cũ cho user avatar ── */
+.user-menu img {
+  position: relative !important;
+  width: 32px !important;
+  height: 32px !important;
+}
