@@ -83,7 +83,7 @@
     Search.init(allSongs);
 
     console.log('🎵 Music App loaded from Supabase —', allSongs.length, 'songs');
-
+    Auth.init();
   } catch (err) {
     console.error('❌ Supabase load failed:', err);
     console.log('⚠️ Falling back to local JSON...');
@@ -100,6 +100,7 @@
       Player.init(unique);
       UI.init(data);
       Search.init(unique);
+      Auth.init();
     } catch (e) {
       console.error('❌ Fallback cũng lỗi:', e);
     }
