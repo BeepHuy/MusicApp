@@ -259,3 +259,58 @@
   width: 32px !important;
   height: 32px !important;
 }
+
+/* ── Playlist UI ── */
+.songItem:hover .playlist-add-btn {
+  display: block !important;
+}
+
+.playlist-add-btn:hover {
+  color: #36e2ec !important;
+}
+
+.playlist-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(120, 130, 170, 0.1);
+  margin-bottom: 10px;
+}
+
+.playlist-detail-header h5 {
+  font-size: 14px;
+  color: #e0e4f0;
+  flex: 1;
+}
+
+.playlist-detail-header .playlist-count {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+.playlist-back {
+  background: none;
+  border: none;
+  color: #36e2ec;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.playlist-empty {
+  padding: 20px 15px;
+  font-size: 12px;
+  color: #7a7f94;
+  text-align: center;
+}
+
+.playlist-remove {
+  color: #7a7f94 !important;
+  font-size: 14px !important;
+  transition: 0.2s;
+}
+
+.playlist-remove:hover {
+  color: #f09595 !important;
+}
