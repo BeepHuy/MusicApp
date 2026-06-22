@@ -2,15 +2,22 @@
   "name": "Music App",
   "short_name": "MusicApp",
   "description": "Ứng dụng nghe nhạc cá nhân",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#0f0c29",
   "theme_color": "#36e2ec",
   "orientation": "any",
   "icons": [
     {
-      "src": "img/logo_web.png",
+      "src": "./img/icon-192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./img/icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }

@@ -14,7 +14,7 @@ const PWA = (() => {
   // ── Register Service Worker ──
   function _registerSW() {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js')
+      navigator.serviceWorker.register('./sw.js')
         .then((reg) => console.log('✅ SW registered:', reg.scope))
         .catch((err) => console.log('SW registration failed:', err));
     }
