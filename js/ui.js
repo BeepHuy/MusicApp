@@ -55,6 +55,7 @@ const UI = (() => {
           ${song.title}
           <div class="subtitle">${song.artist}</div>
         </h5>
+        <i class="bi bi-plus-circle playlist-add-btn" data-song-id="${song.id}" title="Add to playlist" style="position:absolute; right:40px; top:8px; font-size:14px; color:#7a7f94; cursor:pointer; transition:0.2s; display:none;"></i>
         <i class="bi playcircle bi-play-circle-fill" data-song-id="${song.id}"></i>
       </li>
     `).join('');
@@ -226,6 +227,16 @@ const UI = (() => {
         } else {
           Player.playById(songId);
         }
+      });
+    });
+
+    // Add to playlist buttons
+    container.querySelectorAll('.playlist-add-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const songId = e.target.dataset.songId;
+        const rect = e.target.getBoundingClientRect();
+        Playlist.showAddMenu(songId, rect.right + 5, rect.top);
       });
     });
   }
