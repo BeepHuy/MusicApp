@@ -17,6 +17,17 @@ header .song_side2 {
 
 header .song_side2 {
     z-index: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+header .song_side2::-webkit-scrollbar {
+    width: 4px;
+}
+
+header .song_side2::-webkit-scrollbar-thumb {
+    background: rgba(54, 226, 236, 0.3);
+    border-radius: 10px;
 }
 
 header .song_side2 nav {
