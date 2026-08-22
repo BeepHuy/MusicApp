@@ -141,6 +141,21 @@ header .song_side:has(.library-page)::before {
   color: #36e2ec;
 }
 
+.lib-create-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-family: inherit;
+  font-size: 13px;
+  color: #e0e4f0;
+}
+
+.lib-create-input::placeholder {
+  color: #7a7f94;
+}
+
 /* ── Playlist detail view ── */
 .lib-detail-header {
   display: flex;
@@ -179,6 +194,29 @@ header .song_side:has(.library-page)::before {
 .lib-delete-playlist:hover {
   color: #f09595;
   border-color: rgba(240, 149, 149, 0.3);
+}
+
+/* ── Xác nhận xóa inline (thay cho confirm()) ── */
+.lib-delete-playlist.lib-confirming {
+  width: auto;
+  border-radius: 16px;
+  gap: 10px;
+  padding: 0 12px;
+  border-color: rgba(240, 149, 149, 0.3);
+}
+
+.lib-delete-playlist .lib-confirm-yes,
+.lib-delete-playlist .lib-confirm-no {
+  font-size: 14px;
+  transition: .2s;
+}
+
+.lib-delete-playlist .lib-confirm-yes:hover {
+  color: #5dcaa5;
+}
+
+.lib-delete-playlist .lib-confirm-no:hover {
+  color: #f09595;
 }
 
 .lib-detail-count {

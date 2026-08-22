@@ -7,6 +7,22 @@ const Playlist = (() => {
   let userPlaylists = [];
 
   // ══════════════════════════
+  // TOAST — thông báo nhỏ, thay cho alert()
+  // ══════════════════════════
+  function _toast(message, isError = false) {
+    document.querySelector('.app-toast')?.remove();
+    const toast = document.createElement('div');
+    toast.className = 'app-toast' + (isError ? ' app-toast-error' : '');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 2500);
+  }
+
+  // ══════════════════════════
   // INIT — load playlists nếu đã login
   // ══════════════════════════
   async function init() {
@@ -15,7 +31,6 @@ const Playlist = (() => {
         await loadPlaylists();
       } else {
         userPlaylists = [];
-        _renderPlaylistList();
       }
       renderLibraryPage();
     });
@@ -46,7 +61,6 @@ const Playlist = (() => {
     }
 
     userPlaylists = data || [];
-    _renderPlaylistList();
   }
 
   // ══════════════════════════
@@ -54,7 +68,7 @@ const Playlist = (() => {
   // ══════════════════════════
   async function createPlaylist(name) {
     const { data: { user } } = await db.auth.getUser();
-    if (!user) { alert('Please sign in first!'); return; }
+    if (!user) { _toast('Please sign in first!', true); return; }
     if (!name || !name.trim()) return;
 
     const { data, error } = await db
@@ -65,7 +79,7 @@ const Playlist = (() => {
 
     if (error) {
       console.error('Create playlist failed:', error);
-      alert('Failed to create playlist');
+      _toast('Failed to create playlist', true);
       return;
     }
 
@@ -77,8 +91,6 @@ const Playlist = (() => {
   // DELETE playlist
   // ══════════════════════════
   async function deletePlaylist(playlistId) {
-    if (!confirm('Delete this playlist?')) return;
-
     const { error } = await db
       .from('playlists')
       .delete()
@@ -105,7 +117,7 @@ const Playlist = (() => {
       .single();
 
     if (existing) {
-      alert('Song already in playlist!');
+      _toast('Song already in playlist!');
       return;
     }
 
@@ -146,86 +158,7 @@ const Playlist = (() => {
       return;
     }
 
-    // Reload playlist detail nếu đang xem
-    const detail = document.querySelector('.playlist-detail');
-    if (detail && detail.dataset.playlistId === playlistId) {
-      showPlaylistDetail(playlistId);
-    }
     await loadPlaylists();
-  }
-
-  // ══════════════════════════
-  // SHOW playlist detail (songs in playlist)
-  // ══════════════════════════
-  async function showPlaylistDetail(playlistId) {
-    const { data, error } = await db
-      .from('playlist_songs')
-      .select('position, songs(id, title, file_url, cover_url, artists(name))')
-      .eq('playlist_id', playlistId)
-      .order('position');
-
-    if (error) {
-      console.error('Load playlist songs failed:', error);
-      return;
-    }
-
-    const playlist = userPlaylists.find(p => p.id === playlistId);
-    const playlistName = playlist?.name || 'Playlist';
-
-    const container = document.querySelector('.menu_song');
-    if (!container) return;
-
-    container.innerHTML = `
-      <div class="playlist-detail" data-playlist-id="${playlistId}">
-        <div class="playlist-detail-header">
-          <button class="playlist-back" title="Back">
-            <i class="bi bi-arrow-left"></i>
-          </button>
-          <h5>${playlistName}</h5>
-          <span class="playlist-count">${data.length} songs</span>
-        </div>
-        ${data.length === 0 ? '<p class="playlist-empty">No songs yet. Click + on any song to add.</p>' : ''}
-        ${data.map((item, i) => {
-          const s = item.songs;
-          if (!s) return '';
-          return `
-            <li class="songItem" data-id="${s.id}">
-              <span>${String(i + 1).padStart(2, '0')}</span>
-              <img src="${s.cover_url}" alt="${s.artists?.name}">
-              <h5>
-                ${s.title}
-                <div class="subtitle">${s.artists?.name || 'Unknown'}</div>
-              </h5>
-              <i class="bi bi-x-circle playlist-remove" data-song-id="${s.id}" title="Remove"></i>
-            </li>
-          `;
-        }).join('')}
-      </div>
-    `;
-
-    // Back button
-    container.querySelector('.playlist-back')?.addEventListener('click', () => {
-      _renderPlaylistList();
-      // Re-render sidebar songs
-      if (typeof UI !== 'undefined') UI.init(window._appData);
-    });
-
-    // Remove buttons
-    container.querySelectorAll('.playlist-remove').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeSong(playlistId, e.target.dataset.songId || e.target.closest('.playlist-remove').dataset.songId);
-      });
-    });
-
-    // Play song on click
-    container.querySelectorAll('.songItem').forEach(li => {
-      li.addEventListener('click', (e) => {
-        if (e.target.closest('.playlist-remove')) return;
-        const songId = li.dataset.id;
-        if (songId) Player.playById(songId);
-      });
-    });
   }
 
   // ══════════════════════════
@@ -284,10 +217,30 @@ const Playlist = (() => {
       </div>
     `;
 
-    body.querySelector('.lib-create')?.addEventListener('click', async () => {
-      const name = prompt('Playlist name:');
-      if (name) await createPlaylist(name);
-      _renderLibraryGrid(body);
+    body.querySelector('.lib-create')?.addEventListener('click', function onCreateClick() {
+      const createCard = this;
+      createCard.removeEventListener('click', onCreateClick);
+      createCard.innerHTML = `<input type="text" class="lib-create-input" placeholder="Playlist name" maxlength="60">`;
+
+      const input = createCard.querySelector('.lib-create-input');
+      input.focus();
+
+      let done = false;
+      const submit = async () => {
+        if (done) return;
+        done = true;
+        const name = input.value.trim();
+        if (name) await createPlaylist(name);
+        _renderLibraryGrid(body);
+      };
+
+      input.addEventListener('keydown', (e) => {
+        e.stopPropagation();
+        if (e.key === 'Enter') submit();
+        if (e.key === 'Escape') { done = true; _renderLibraryGrid(body); }
+      });
+      input.addEventListener('blur', submit);
+      input.addEventListener('click', (e) => e.stopPropagation());
     });
 
     body.querySelectorAll('.lib-card[data-pl-id]').forEach(card => {
@@ -327,9 +280,33 @@ const Playlist = (() => {
 
     body.querySelector('.lib-back')?.addEventListener('click', () => _renderLibraryGrid(body));
 
-    body.querySelector('.lib-delete-playlist')?.addEventListener('click', async () => {
-      await deletePlaylist(playlistId);
-      _renderLibraryGrid(body);
+    body.querySelector('.lib-delete-playlist')?.addEventListener('click', function onDeleteClick() {
+      const btn = this;
+      btn.removeEventListener('click', onDeleteClick);
+      btn.classList.add('lib-confirming');
+      btn.innerHTML = `
+        <i class="bi bi-check-lg lib-confirm-yes" title="Confirm delete"></i>
+        <i class="bi bi-x-lg lib-confirm-no" title="Cancel"></i>
+      `;
+
+      const revert = () => {
+        btn.classList.remove('lib-confirming');
+        btn.innerHTML = '<i class="bi bi-trash3"></i>';
+        btn.addEventListener('click', onDeleteClick);
+      };
+      const revertTimer = setTimeout(revert, 4000);
+
+      btn.querySelector('.lib-confirm-yes').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        clearTimeout(revertTimer);
+        await deletePlaylist(playlistId);
+        _renderLibraryGrid(body);
+      });
+      btn.querySelector('.lib-confirm-no').addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(revertTimer);
+        revert();
+      });
     });
 
     body.querySelectorAll('.lib-song-remove').forEach(btn => {
@@ -359,7 +336,7 @@ const Playlist = (() => {
     const { data: { session } } = { data: { session: null } };
 
     if (userPlaylists.length === 0) {
-      alert('Create a playlist first!');
+      _toast('Create a playlist first!');
       return;
     }
 
@@ -406,62 +383,6 @@ const Playlist = (() => {
         }
       });
     }, 10);
-  }
-
-  // ══════════════════════════
-  // RENDER playlist list in sidebar
-  // ══════════════════════════
-  function _renderPlaylistList() {
-    const playlistNav = document.querySelector('.playlist');
-    if (!playlistNav) return;
-
-    // Remove old playlist items
-    playlistNav.querySelectorAll('.user-playlist-item, .playlist-create').forEach(el => el.remove());
-
-    if (userPlaylists.length === 0 && !Auth.getUser()) return;
-
-    // Add "New Playlist" button
-    const createBtn = document.createElement('div');
-    createBtn.className = 'playlist-create';
-    createBtn.innerHTML = `
-      <h4 style="cursor:pointer; color:#36e2ec; font-size:13px; padding-bottom:10px; display:flex; align-items:center; gap:8px;">
-        <i class="bi bi-plus-circle"></i> New Playlist
-      </h4>
-    `;
-    createBtn.addEventListener('click', async () => {
-      const name = prompt('Playlist name:');
-      if (name) await createPlaylist(name);
-    });
-    playlistNav.appendChild(createBtn);
-
-    // Render user playlists
-    userPlaylists.forEach(pl => {
-      const item = document.createElement('div');
-      item.className = 'user-playlist-item';
-      item.innerHTML = `
-        <h4 style="cursor:pointer; font-size:13px; padding-bottom:8px; display:flex; align-items:center; justify-content:space-between; color:#e0e4f0;">
-          <span style="display:flex; align-items:center; gap:8px;">
-            <i class="bi bi-music-note-list" style="color:#7b61ff;"></i>
-            ${pl.name}
-            <small style="color:#7a7f94; font-weight:400;">(${pl.playlist_songs?.length || 0})</small>
-          </span>
-          <i class="bi bi-trash3 playlist-delete" data-pl-id="${pl.id}" style="font-size:12px; color:#7a7f94;"></i>
-        </h4>
-      `;
-
-      // Click to view playlist
-      item.querySelector('span').addEventListener('click', () => {
-        showPlaylistDetail(pl.id);
-      });
-
-      // Delete button
-      item.querySelector('.playlist-delete').addEventListener('click', (e) => {
-        e.stopPropagation();
-        deletePlaylist(pl.id);
-      });
-
-      playlistNav.appendChild(item);
-    });
   }
 
   function getPlaylists() { return userPlaylists; }
