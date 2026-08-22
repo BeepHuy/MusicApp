@@ -22,6 +22,7 @@ const UI = (() => {
     } else if (page === 'week') {
       _renderWeekly();
     }
+    // 'library' page: nội dung do Playlist.renderLibraryPage() tự xử lý
 
     document.addEventListener('songChanged', (e) => {
       _highlightSong(e.detail.id);
@@ -31,6 +32,7 @@ const UI = (() => {
   function _detectPage() {
     const path = window.location.pathname;
     if (path.includes('week')) return 'week';
+    if (path.includes('library')) return 'library';
     return 'index';
   }
 
