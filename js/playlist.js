@@ -10,19 +10,21 @@ const Playlist = (() => {
   // INIT — load playlists nếu đã login
   // ══════════════════════════
   async function init() {
-    db.auth.onAuthStateChange((event, session) => {
+    db.auth.onAuthStateChange(async (event, session) => {
       if (session?.user) {
-        loadPlaylists();
+        await loadPlaylists();
       } else {
         userPlaylists = [];
         _renderPlaylistList();
       }
+      renderLibraryPage();
     });
 
     const { data: { session } } = await db.auth.getSession();
     if (session?.user) {
       await loadPlaylists();
     }
+    renderLibraryPage();
   }
 
   // ══════════════════════════
@@ -227,6 +229,127 @@ const Playlist = (() => {
   }
 
   // ══════════════════════════
+  // LIBRARY PAGE (library.html) — grid + detail view
+  // ══════════════════════════
+  async function _fetchPlaylistSongs(playlistId) {
+    const { data, error } = await db
+      .from('playlist_songs')
+      .select('position, songs(id, title, file_url, cover_url, artists(name))')
+      .eq('playlist_id', playlistId)
+      .order('position');
+
+    if (error) {
+      console.error('Load playlist songs failed:', error);
+      return [];
+    }
+    return data || [];
+  }
+
+  function renderLibraryPage() {
+    const body = document.querySelector('.library-body');
+    if (!body) return;
+
+    if (!Auth.getUser()) {
+      body.innerHTML = `
+        <div class="lib-empty">
+          <i class="bi bi-person-circle"></i>
+          <p>Sign in to see your playlists</p>
+          <button class="lib-signin-btn">Sign In</button>
+        </div>
+      `;
+      body.querySelector('.lib-signin-btn')?.addEventListener('click', () => {
+        document.querySelector('.user-login-btn')?.click();
+      });
+      return;
+    }
+
+    _renderLibraryGrid(body);
+  }
+
+  function _renderLibraryGrid(body) {
+    body.innerHTML = `
+      <div class="lib-grid">
+        <div class="lib-card lib-create">
+          <i class="bi bi-plus-circle"></i>
+          <span>New Playlist</span>
+        </div>
+        ${userPlaylists.length === 0 ? '<p class="lib-empty-text">No playlists yet. Create one to get started!</p>' : ''}
+        ${userPlaylists.map(pl => `
+          <div class="lib-card" data-pl-id="${pl.id}">
+            <div class="lib-card-cover"><i class="bi bi-music-note-list"></i></div>
+            <h5>${pl.name}</h5>
+            <span class="lib-card-count">${pl.playlist_songs?.length || 0} songs</span>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    body.querySelector('.lib-create')?.addEventListener('click', async () => {
+      const name = prompt('Playlist name:');
+      if (name) await createPlaylist(name);
+      _renderLibraryGrid(body);
+    });
+
+    body.querySelectorAll('.lib-card[data-pl-id]').forEach(card => {
+      card.addEventListener('click', () => _renderLibraryDetail(body, card.dataset.plId));
+    });
+  }
+
+  async function _renderLibraryDetail(body, playlistId) {
+    const songs = await _fetchPlaylistSongs(playlistId);
+    const playlist = userPlaylists.find(p => p.id === playlistId);
+    const name = playlist?.name || 'Playlist';
+
+    body.innerHTML = `
+      <div class="lib-detail">
+        <div class="lib-detail-header">
+          <button class="lib-back" title="Back"><i class="bi bi-arrow-left"></i></button>
+          <h2>${name}</h2>
+          <span class="lib-detail-count">${songs.length} songs</span>
+          <button class="lib-delete-playlist" title="Delete playlist"><i class="bi bi-trash3"></i></button>
+        </div>
+        ${songs.length === 0 ? '<p class="lib-empty-text">No songs yet. Click the + icon on any song to add it here.</p>' : ''}
+        ${songs.map((item, i) => {
+          const s = item.songs;
+          if (!s) return '';
+          return `
+            <div class="lib-song-row" data-id="${s.id}">
+              <span>${String(i + 1).padStart(2, '0')}</span>
+              <img src="${s.cover_url}" alt="${s.artists?.name}">
+              <h5>${s.title}<div class="subtitle">${s.artists?.name || 'Unknown'}</div></h5>
+              <i class="bi bi-play-circle-fill lib-song-play" data-song-id="${s.id}"></i>
+              <i class="bi bi-x-circle lib-song-remove" data-song-id="${s.id}" title="Remove"></i>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    body.querySelector('.lib-back')?.addEventListener('click', () => _renderLibraryGrid(body));
+
+    body.querySelector('.lib-delete-playlist')?.addEventListener('click', async () => {
+      await deletePlaylist(playlistId);
+      _renderLibraryGrid(body);
+    });
+
+    body.querySelectorAll('.lib-song-remove').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await removeSong(playlistId, btn.dataset.songId);
+        _renderLibraryDetail(body, playlistId);
+      });
+    });
+
+    body.querySelectorAll('.lib-song-row').forEach(row => {
+      row.addEventListener('click', (e) => {
+        if (e.target.closest('.lib-song-remove')) return;
+        const songId = row.dataset.id;
+        if (songId) Player.playById(songId);
+      });
+    });
+  }
+
+  // ══════════════════════════
   // SHOW "Add to playlist" menu
   // ══════════════════════════
   function showAddMenu(songId, x, y) {
@@ -343,5 +466,5 @@ const Playlist = (() => {
 
   function getPlaylists() { return userPlaylists; }
 
-  return { init, loadPlaylists, createPlaylist, deletePlaylist, addSong, removeSong, showAddMenu, getPlaylists };
+  return { init, loadPlaylists, createPlaylist, deletePlaylist, addSong, removeSong, showAddMenu, getPlaylists, renderLibraryPage };
 })();

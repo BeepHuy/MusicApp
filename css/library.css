@@ -1,0 +1,248 @@
+/* ═══════════════════════════════════════════
+   library.css — My Library page
+   Playlist grid + playlist detail view
+   ═══════════════════════════════════════════ */
+
+/* Trang My Library dùng chung khung .song_side với Discover,
+   nhưng không cần ảnh nền trang trí của Discover */
+header .song_side:has(.library-page)::before {
+  display: none;
+}
+
+.library-page {
+  width: 90%;
+  margin: 20px auto 0;
+}
+
+.library-page h1 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 20px;
+}
+
+/* ── Empty / sign-in state ── */
+.lib-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7a7f94;
+  text-align: center;
+}
+
+.lib-empty i {
+  font-size: 40px;
+  color: #4c5262;
+  margin-bottom: 12px;
+}
+
+.lib-empty p {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.lib-empty .lib-signin-btn {
+  width: 140px;
+  height: 32px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #0f0c29;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.lib-empty .lib-signin-btn:hover {
+  box-shadow: 0 0 20px rgba(54, 226, 236, 0.3);
+}
+
+.lib-empty-text {
+  grid-column: 1 / -1;
+  color: #7a7f94;
+  font-size: 13px;
+  padding: 10px 0 30px;
+}
+
+/* ── Playlist grid ── */
+.lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+  padding-bottom: 30px;
+}
+
+.lib-card {
+  background: rgba(120, 130, 170, 0.06);
+  border: 1px solid rgba(120, 130, 170, 0.08);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.lib-card:hover {
+  background: rgba(54, 226, 236, 0.06);
+  border-color: rgba(54, 226, 236, 0.15);
+  transform: translateY(-2px);
+}
+
+.lib-card-cover {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(54, 226, 236, 0.15), rgba(123, 97, 255, 0.15));
+}
+
+.lib-card-cover i {
+  font-size: 32px;
+  color: #36e2ec;
+}
+
+.lib-card h5 {
+  font-size: 13px;
+  color: #e0e4f0;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lib-card-count {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+.lib-card.lib-create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(54, 226, 236, 0.3);
+  background: transparent;
+  min-height: 170px;
+}
+
+.lib-card.lib-create i {
+  font-size: 30px;
+  color: #36e2ec;
+  margin-bottom: 8px;
+}
+
+.lib-card.lib-create span {
+  font-size: 12px;
+  color: #36e2ec;
+}
+
+/* ── Playlist detail view ── */
+.lib-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.lib-detail-header h2 {
+  font-size: 20px;
+  color: #e0e4f0;
+  font-weight: 600;
+  flex: 1;
+}
+
+.lib-back,
+.lib-delete-playlist {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 130, 170, 0.15);
+  background: rgba(120, 130, 170, 0.06);
+  color: #e0e4f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .3s;
+}
+
+.lib-back:hover {
+  color: #36e2ec;
+  border-color: rgba(54, 226, 236, 0.3);
+}
+
+.lib-delete-playlist:hover {
+  color: #f09595;
+  border-color: rgba(240, 149, 149, 0.3);
+}
+
+.lib-detail-count {
+  font-size: 12px;
+  color: #7a7f94;
+}
+
+.lib-song-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s;
+  margin-bottom: 4px;
+}
+
+.lib-song-row:hover {
+  background: rgba(120, 130, 170, 0.08);
+}
+
+.lib-song-row span:first-child {
+  width: 28px;
+  font-size: 12px;
+  color: #7a7f94;
+}
+
+.lib-song-row img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 14px;
+}
+
+.lib-song-row h5 {
+  flex: 1;
+  font-size: 13px;
+  color: #e0e4f0;
+  line-height: 17px;
+}
+
+.lib-song-row h5 .subtitle {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+.lib-song-row .lib-song-play {
+  font-size: 18px;
+  color: #7a7f94;
+  margin-right: 14px;
+  transition: .2s;
+}
+
+.lib-song-row:hover .lib-song-play {
+  color: #36e2ec;
+}
+
+.lib-song-row .lib-song-remove {
+  font-size: 16px;
+  color: #4c5262;
+  transition: .2s;
+}
+
+.lib-song-row .lib-song-remove:hover {
+  color: #f09595;
+}

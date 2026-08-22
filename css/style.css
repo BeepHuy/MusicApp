@@ -538,8 +538,14 @@ header .song_side nav ul li:hover {
     color: #e0e4f0;
 }
 
-header .song_side nav ul li:nth-child(1) {
+header .song_side nav ul li:nth-child(1),
+header .song_side nav ul li.nav-active {
     color: #e0e4f0;
+}
+
+header .song_side nav ul li a {
+    color: inherit;
+    text-decoration: none;
 }
 
 header .song_side nav ul li span {

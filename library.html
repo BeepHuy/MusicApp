@@ -15,8 +15,9 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/player-controls.css">
     <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/library.css">
     <link rel="stylesheet" href="./css/responsive.css">
-    <title>Music App</title>
+    <title>My Library — Music App</title>
 </head>
 
 <body>
@@ -46,8 +47,8 @@
         <div class="song_side">
             <nav>
                 <ul>
-                    <li class="nav-active"><a href="./index.html">Discover</a><span></span></li>
-                    <li><a href="./library.html">MY LIBRARY</a></li>
+                    <li><a href="./index.html">Discover</a></li>
+                    <li class="nav-active"><a href="./library.html">MY LIBRARY</a><span></span></li>
                     <li>RADIO</li>
                 </ul>
                 <div class="search">
@@ -59,31 +60,10 @@
                 </div>
             </nav>
 
-            <!-- JS sẽ render featured section vào đây -->
-            <div class="content"></div>
-
-            <div class="popular_song">
-                <div class="h4">
-                    <h4>Popular Song</h4>
-                    <div class="btn_s">
-                        <i id="left_scroll" class="bi bi-arrow-left-short"></i>
-                        <i id="right_scroll" class="bi bi-arrow-right-short"></i>
-                    </div>
-                </div>
-                <!-- JS sẽ render popular songs vào đây -->
-                <div class="pop_song"></div>
-            </div>
-
-            <div class="popular_artists">
-                <div class="h4">
-                    <h4>Popular Artists</h4>
-                    <div class="btn_s">
-                        <i id="left_scrolls" class="bi bi-arrow-left-short"></i>
-                        <i id="right_scrolls" class="bi bi-arrow-right-short"></i>
-                    </div>
-                </div>
-                <!-- JS sẽ render artists vào đây -->
-                <div class="item"></div>
+            <div class="library-page">
+                <h1>My Library</h1>
+                <!-- JS sẽ render lưới playlist hoặc chi tiết playlist vào đây -->
+                <div class="library-body"></div>
             </div>
         </div>
 
@@ -121,7 +101,7 @@
             </div>
         </div>
     </header>
-    
+
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="./js/supabase.js"></script>
