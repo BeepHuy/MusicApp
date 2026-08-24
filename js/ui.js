@@ -21,6 +21,8 @@ const UI = (() => {
       _initScrollButtons();
     } else if (page === 'week') {
       _renderWeekly();
+    } else if (page === 'recommended') {
+      _renderRecommended();
     }
     // 'library' page: nội dung do Playlist.renderLibraryPage() tự xử lý
 
@@ -33,6 +35,7 @@ const UI = (() => {
     const path = window.location.pathname;
     if (path.includes('week')) return 'week';
     if (path.includes('library')) return 'library';
+    if (path.includes('recommended')) return 'recommended';
     return 'index';
   }
 
@@ -47,6 +50,8 @@ const UI = (() => {
       playlistLinks[0]?.classList.add('active');
     } else if (page === 'week') {
       playlistLinks[1]?.classList.add('active');
+    } else if (page === 'recommended') {
+      playlistLinks[2]?.classList.add('active');
     }
 
     container.innerHTML = data.sidebar.map((song, i) => `
@@ -151,6 +156,39 @@ const UI = (() => {
 
     songSide.appendChild(section);
     _bindPlayButtons(section);
+  }
+
+  // ── Recommended (bài hát chưa xuất hiện ở Popular Song / New Releases) ──
+  function _renderRecommended() {
+    const body = document.querySelector('.recommended-body');
+    if (!body || !data.allSongs) return;
+
+    const shownIds = new Set([
+      ...(data.popularSongs || []).map(s => s.id),
+      ...(data.newReleases || []).map(s => s.id),
+    ]);
+    const recommended = data.allSongs.filter(s => !shownIds.has(s.id));
+
+    if (recommended.length === 0) {
+      body.innerHTML = '<p class="rec-empty-text">No more songs to recommend right now.</p>';
+      return;
+    }
+
+    body.innerHTML = `
+      <div class="rec-grid">
+        ${recommended.map(song => `
+          <li class="rec-card songItem" data-id="${song.id}">
+            <img src="${song.cover}" alt="${song.artist}">
+            <h5>
+              ${song.title}
+              <div class="subtitle">${song.artist}</div>
+            </h5>
+          </li>
+        `).join('')}
+      </div>
+    `;
+
+    _bindPlayButtons(body);
   }
 
   // ── Weekly Rankings ──
