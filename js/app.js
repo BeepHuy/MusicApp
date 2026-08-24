@@ -78,6 +78,7 @@
     });
 
     // 6. Init modules
+    data.allSongs = allSongs;
     Player.init(allSongs);
     UI.init(data);
     Search.init(allSongs);
@@ -100,6 +101,7 @@
         ...(data.weekly?.kpop || []), ...(data.weekly?.usuk || []), ...(data.weekly?.rap || []),
       ];
       const unique = [...new Map(allSongs.map(s => [s.id, s])).values()];
+      data.allSongs = unique;
       Player.init(unique);
       UI.init(data);
       Search.init(unique);
