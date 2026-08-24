@@ -23,6 +23,8 @@ const UI = (() => {
       _renderWeekly();
     } else if (page === 'recommended') {
       _renderRecommended();
+    } else if (page === 'radio') {
+      _renderRadio();
     }
     // 'library' page: nội dung do Playlist.renderLibraryPage() tự xử lý
 
@@ -36,6 +38,7 @@ const UI = (() => {
     if (path.includes('week')) return 'week';
     if (path.includes('library')) return 'library';
     if (path.includes('recommended')) return 'recommended';
+    if (path.includes('radio')) return 'radio';
     return 'index';
   }
 
@@ -189,6 +192,71 @@ const UI = (() => {
     `;
 
     _bindPlayButtons(body);
+  }
+
+  // ── Radio (Live Stations theo category + Artist Radio) ──
+  function _renderRadio() {
+    const body = document.querySelector('.radio-body');
+    if (!body || !data.weekly || !data.artists || !data.allSongs) return;
+
+    const stations = [
+      { key: 'kpop', label: 'K-Pop Radio', icon: 'bi-fire' },
+      { key: 'usuk', label: 'US-UK Radio', icon: 'bi-globe' },
+      { key: 'rap', label: 'Rap Radio', icon: 'bi-mic' },
+    ];
+
+    const liveHtml = stations.map(st => {
+      const songs = data.weekly[st.key] || [];
+      const cover = songs[0]?.cover || 'img/0.png';
+      return `
+        <div class="radio-live-card" data-station="${st.key}" style="background-image:url('${cover}')">
+          <span class="radio-live-badge"><span class="radio-live-dot"></span>LIVE</span>
+          <div class="radio-live-overlay">
+            <i class="bi ${st.icon}"></i>
+            <h5>${st.label}</h5>
+            <span>${songs.length} songs</span>
+          </div>
+          <button class="radio-live-play" title="Play"><i class="bi bi-play-fill"></i></button>
+        </div>
+      `;
+    }).join('');
+
+    const artistHtml = data.artists.map(a => `
+      <div class="radio-artist-card" data-artist="${a.name}">
+        <img src="${a.avatar}" alt="${a.name}">
+        <span>${a.name}</span>
+      </div>
+    `).join('');
+
+    body.innerHTML = `
+      <div class="radio-section">
+        <h4 class="radio-section-title">🔥 Live Stations</h4>
+        <div class="radio-live-grid">${liveHtml}</div>
+      </div>
+      <div class="radio-section">
+        <h4 class="radio-section-title">🎤 Artist Radio</h4>
+        <div class="radio-artist-grid">${artistHtml}</div>
+      </div>
+    `;
+
+    body.querySelectorAll('.radio-live-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const songs = data.weekly[card.dataset.station] || [];
+        if (songs.length === 0) return;
+        Player.playQueue(songs, undefined, true);
+      });
+    });
+
+    body.querySelectorAll('.radio-artist-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const name = card.dataset.artist;
+        const own = data.allSongs.filter(s => s.artist === name);
+        if (own.length === 0) return;
+        const rest = data.allSongs.filter(s => s.artist !== name);
+        const shuffledRest = [...rest].sort(() => Math.random() - 0.5);
+        Player.playQueue([...own, ...shuffledRest], own[0].id, true);
+      });
+    });
   }
 
   // ── Weekly Rankings ──

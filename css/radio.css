@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════
+   radio.css — Radio page
+   Live Stations (K-Pop/US-UK/Rap) + Artist Radio
+   ═══════════════════════════════════════════ */
+
+header .song_side:has(.radio-page)::before {
+  display: none;
+}
+
+.radio-page {
+  width: 90%;
+  margin: 20px auto 0;
+  padding-bottom: 20px;
+}
+
+.radio-page h1 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 24px;
+}
+
+.radio-section {
+  margin-bottom: 32px;
+}
+
+.radio-section-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 14px;
+}
+
+/* ── Live Stations ── */
+.radio-live-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.radio-live-card {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  background-color: #111727;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.radio-live-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 12, 25, 0.15) 0%, rgba(10, 12, 25, 0.85) 100%);
+}
+
+.radio-live-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.radio-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4757;
+  display: inline-block;
+  margin-right: 5px;
+  animation: radioLivePulse 1.2s ease-in-out infinite;
+}
+
+@keyframes radioLivePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.radio-live-overlay {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  right: 16px;
+  z-index: 2;
+}
+
+.radio-live-overlay i {
+  font-size: 20px;
+  color: #36e2ec;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.radio-live-overlay h5 {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.radio-live-overlay span {
+  font-size: 11px;
+  color: #b8bccc;
+}
+
+.radio-live-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  z-index: 3;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(54, 226, 236, 0.95);
+  color: #0f0c29;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s ease;
+}
+
+.radio-live-card:hover .radio-live-play {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radio-live-card:hover::after {
+  background: linear-gradient(180deg, rgba(10, 12, 25, 0.35) 0%, rgba(10, 12, 25, 0.9) 100%);
+}
+
+/* ── Artist Radio ── */
+.radio-artist-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.radio-artist-card {
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.radio-artist-card:hover {
+  transform: translateY(-2px);
+}
+
+.radio-artist-card img {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid transparent;
+  transition: .2s ease;
+}
+
+.radio-artist-card:hover img {
+  border-color: #36e2ec;
+}
+
+.radio-artist-card span {
+  font-size: 12px;
+  color: #e0e4f0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
