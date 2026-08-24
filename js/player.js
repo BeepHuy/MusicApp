@@ -7,7 +7,8 @@
 const Player = (() => {
   // ── State ──
   const audio = new Audio();
-  let allSongs = [];
+  let masterSongs = []; // toàn bộ kho nhạc, cố định từ init()
+  let allSongs = []; // hàng đợi đang phát (có thể bị Radio thay đổi tạm thời)
   let currentIndex = -1;
   let isPlaying = false;
   let isShuffle = false;
@@ -21,6 +22,7 @@ const Player = (() => {
   // PUBLIC: init
   // ══════════════════════════
   function init(songList) {
+    masterSongs = songList;
     allSongs = songList;
 
     els = {
@@ -51,9 +53,29 @@ const Player = (() => {
   // PUBLIC API
   // ══════════════════════════
   function playById(id) {
-    const idx = allSongs.findIndex((s) => s.id === id);
-    if (idx === -1) return;
+    let idx = allSongs.findIndex((s) => s.id === id);
+    if (idx === -1) {
+      // Không có trong hàng đợi hiện tại (VD đang ở 1 trạm Radio) → thoát trạm, quay về toàn bộ kho nhạc
+      idx = masterSongs.findIndex((s) => s.id === id);
+      if (idx === -1) return;
+      allSongs = masterSongs;
+    }
     _playSongAt(idx);
+  }
+
+  // Phát 1 danh sách bài hát riêng (dùng cho Radio station), bắt đầu từ startId (hoặc bài đầu)
+  function playQueue(songList, startId, autoShuffle) {
+    if (!songList || songList.length === 0) return;
+    allSongs = songList;
+
+    if (autoShuffle && !isShuffle) {
+      isShuffle = true;
+      els.shuffleBtn?.classList.add("active-control");
+      _saveState();
+    }
+
+    const startIdx = startId ? songList.findIndex((s) => s.id === startId) : 0;
+    _playSongAt(startIdx >= 0 ? startIdx : 0);
   }
 
   function getCurrentId() {
@@ -253,9 +275,7 @@ const Player = (() => {
       audio.play();
       return;
     }
-    if (repeatMode === "all") {
-      _playNext();
-    } else if (currentIndex < allSongs.length - 1) {
+    if (repeatMode === "all" || isShuffle || currentIndex < allSongs.length - 1) {
       _playNext();
     } else {
       _setPlayingState(false);
@@ -390,5 +410,5 @@ const Player = (() => {
     }
   }
 
-  return { init, playById, getCurrentId, getIsPlaying, togglePause };
+  return { init, playById, playQueue, getCurrentId, getIsPlaying, togglePause };
 })();
