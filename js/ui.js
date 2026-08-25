@@ -39,6 +39,7 @@ const UI = (() => {
     if (path.includes('library')) return 'library';
     if (path.includes('recommended')) return 'recommended';
     if (path.includes('radio')) return 'radio';
+    if (path.includes('admin')) return 'admin';
     return 'index';
   }
 
