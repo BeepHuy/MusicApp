@@ -1,0 +1,254 @@
+/* ═══════════════════════════════════════════
+   admin.css — Manage Songs (Admin CRUD)
+   ═══════════════════════════════════════════ */
+
+header .song_side:has(.admin-page)::before {
+  display: none;
+}
+
+.admin-page {
+  width: 90%;
+  margin: 20px auto 0;
+  padding-bottom: 30px;
+}
+
+.admin-page h1 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 20px;
+}
+
+.admin-gate {
+  display: none;
+  color: #f09595;
+  font-size: 13px;
+  background: rgba(240, 149, 149, 0.08);
+  border: 1px solid rgba(240, 149, 149, 0.2);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+
+.admin-body {
+  display: none;
+  grid-template-columns: 340px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Form card ── */
+.admin-form-card {
+  background: rgba(120, 130, 170, 0.06);
+  border: 1px solid rgba(120, 130, 170, 0.1);
+  border-radius: 14px;
+  padding: 20px;
+  position: sticky;
+  top: 20px;
+}
+
+.admin-form-card h4 {
+  font-size: 15px;
+  color: #e0e4f0;
+  margin-bottom: 16px;
+}
+
+.admin-form-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-form-card label {
+  font-size: 11px;
+  color: #7a7f94;
+  margin: 12px 0 6px;
+}
+
+.admin-form-card label:first-of-type {
+  margin-top: 0;
+}
+
+.admin-optional {
+  color: #4c5262;
+  font-weight: 400;
+}
+
+.admin-form-card input[type="text"],
+.admin-form-card select {
+  background: rgba(15, 20, 40, 0.6);
+  border: 1px solid rgba(120, 130, 170, 0.2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: #e0e4f0;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+
+.admin-form-card input[type="text"]:focus,
+.admin-form-card select:focus {
+  border-color: rgba(54, 226, 236, 0.4);
+}
+
+.admin-form-card input[type="file"] {
+  color: #7a7f94;
+  font-size: 12px;
+}
+
+.admin-preview {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-top: 8px;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-form-actions button {
+  flex: 1;
+  height: 36px;
+  border-radius: 20px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.admin-form-actions button[type="submit"] {
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #0f0c29;
+}
+
+.admin-form-actions button[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.admin-form-actions button[type="submit"]:not(:disabled):hover {
+  box-shadow: 0 0 16px rgba(54, 226, 236, 0.25);
+}
+
+.admin-cancel-edit {
+  background: rgba(120, 130, 170, 0.1);
+  color: #e0e4f0;
+}
+
+.admin-cancel-edit:hover {
+  background: rgba(120, 130, 170, 0.18);
+}
+
+/* ── Song list ── */
+.admin-list h4 {
+  font-size: 15px;
+  color: #e0e4f0;
+  margin-bottom: 14px;
+}
+
+.admin-song-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-song-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(120, 130, 170, 0.04);
+  transition: .2s;
+}
+
+.admin-song-row:hover {
+  background: rgba(120, 130, 170, 0.08);
+}
+
+.admin-song-row img {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 14px;
+}
+
+.admin-song-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-song-info h5 {
+  font-size: 13px;
+  color: #e0e4f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-song-info .subtitle {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+.admin-edit-btn,
+.admin-delete-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(120, 130, 170, 0.15);
+  background: rgba(120, 130, 170, 0.06);
+  color: #e0e4f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: .2s;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+.admin-edit-btn:hover {
+  color: #36e2ec;
+  border-color: rgba(54, 226, 236, 0.3);
+}
+
+.admin-delete-btn:hover {
+  color: #f09595;
+  border-color: rgba(240, 149, 149, 0.3);
+}
+
+.admin-delete-btn.admin-confirming {
+  width: auto;
+  border-radius: 16px;
+  gap: 10px;
+  padding: 0 12px;
+  border-color: rgba(240, 149, 149, 0.3);
+}
+
+.admin-delete-btn .admin-confirm-yes,
+.admin-delete-btn .admin-confirm-no {
+  font-size: 14px;
+  transition: .2s;
+}
+
+.admin-delete-btn .admin-confirm-yes:hover {
+  color: #5dcaa5;
+}
+
+.admin-delete-btn .admin-confirm-no:hover {
+  color: #f09595;
+}
+
+@media screen and (max-width: 900px) {
+  .admin-body {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-card {
+    position: static;
+  }
+}

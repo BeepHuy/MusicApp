@@ -188,6 +188,8 @@ const Auth = (() => {
     const name = meta.full_name || meta.name || currentUser.email?.split('@')[0] || 'User';
     const avatar = meta.avatar_url || meta.picture || 'img/user.png';
 
+    const isAdmin = currentUser.id === ADMIN_UID;
+
     userContainers.forEach(container => {
       container.innerHTML = `
         <div class="user-menu">
@@ -196,6 +198,7 @@ const Auth = (() => {
           <div class="user-dropdown">
             <a href="#"><i class="bi bi-person"></i> Profile</a>
             <a href="#"><i class="bi bi-gear"></i> Settings</a>
+            ${isAdmin ? '<a href="./admin.html"><i class="bi bi-music-note-list"></i> Manage Songs</a>' : ''}
             <a class="logout-btn"><i class="bi bi-box-arrow-right"></i> Log out</a>
           </div>
         </div>
