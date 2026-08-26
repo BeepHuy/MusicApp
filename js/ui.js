@@ -222,6 +222,29 @@ const UI = (() => {
       `;
     }).join('');
 
+    // Genre stations — nhóm động theo genre thật có trong dữ liệu (không bịa danh sách cố định)
+    const genreMap = {};
+    data.allSongs.forEach(s => {
+      const key = s.genre?.trim();
+      if (!key) return;
+      (genreMap[key] = genreMap[key] || []).push(s);
+    });
+    const genreKeys = Object.keys(genreMap);
+
+    const genreHtml = genreKeys.length === 0
+      ? `<p class="radio-genre-empty">Chưa có bài hát nào được gắn thể loại. Vào <a href="./admin.html">Manage Songs</a> để gắn genre cho từng bài và mở khoá các trạm này.</p>`
+      : `<div class="radio-genre-grid">
+          ${genreKeys.map((genre, i) => `
+            <div class="radio-genre-card radio-genre-color-${i % 6}" data-genre="${genre}">
+              <i class="bi ${_genreIcon(genre)}"></i>
+              <div>
+                <h5>${genre}</h5>
+                <span>${genreMap[genre].length} songs</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
+
     const artistHtml = data.artists.map(a => `
       <div class="radio-artist-card" data-artist="${a.name}">
         <img src="${a.avatar}" alt="${a.name}">
@@ -233,6 +256,10 @@ const UI = (() => {
       <div class="radio-section">
         <h4 class="radio-section-title">🔥 Live Stations</h4>
         <div class="radio-live-grid">${liveHtml}</div>
+      </div>
+      <div class="radio-section">
+        <h4 class="radio-section-title">🎵 Genre Stations</h4>
+        ${genreHtml}
       </div>
       <div class="radio-section">
         <h4 class="radio-section-title">🎤 Artist Radio</h4>
@@ -248,6 +275,14 @@ const UI = (() => {
       });
     });
 
+    body.querySelectorAll('.radio-genre-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const songs = genreMap[card.dataset.genre] || [];
+        if (songs.length === 0) return;
+        Player.playQueue(songs, undefined, true);
+      });
+    });
+
     body.querySelectorAll('.radio-artist-card').forEach(card => {
       card.addEventListener('click', () => {
         const name = card.dataset.artist;
@@ -258,6 +293,20 @@ const UI = (() => {
         Player.playQueue([...own, ...shuffledRest], own[0].id, true);
       });
     });
+  }
+
+  // Chọn icon phù hợp theo tên genre (fallback về icon nốt nhạc chung)
+  function _genreIcon(genre) {
+    const g = genre.toLowerCase();
+    if (g.includes('lofi') || g.includes('lo-fi')) return 'bi-cloud-moon';
+    if (g.includes('hip') || g.includes('rap')) return 'bi-mic';
+    if (g.includes('pop')) return 'bi-stars';
+    if (g.includes('acoustic') || g.includes('guitar')) return 'bi-music-note';
+    if (g.includes('indie')) return 'bi-vinyl';
+    if (g.includes('edm') || g.includes('dance') || g.includes('electronic')) return 'bi-lightning-charge';
+    if (g.includes('rock')) return 'bi-lightning';
+    if (g.includes('ballad') || g.includes('chill')) return 'bi-cloud';
+    return 'bi-music-note-beamed';
   }
 
   // ── Weekly Rankings ──
