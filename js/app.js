@@ -5,7 +5,7 @@
     // 1. Fetch songs + artist name từ Supabase
     const { data: songs, error: songsErr } = await db
       .from('songs')
-      .select('id, title, file_url, cover_url, section, display_order, artists(name)')
+      .select('id, title, file_url, cover_url, section, genre, display_order, artists(name)')
       .order('display_order');
 
     if (songsErr) throw songsErr;
@@ -33,6 +33,7 @@
         artist: s.artists?.name || 'Unknown',
         file: s.file_url,
         cover: s.cover_url,
+        genre: s.genre || null,
       };
     }
 

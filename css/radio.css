@@ -144,6 +144,70 @@ header .song_side:has(.radio-page)::before {
   background: linear-gradient(180deg, rgba(10, 12, 25, 0.35) 0%, rgba(10, 12, 25, 0.9) 100%);
 }
 
+/* ── Genre Stations ── */
+.radio-genre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.radio-genre-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #fff;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.radio-genre-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.radio-genre-card i {
+  font-size: 24px;
+  opacity: 0.9;
+}
+
+.radio-genre-card h5 {
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.radio-genre-card span {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.radio-genre-color-0 { background: linear-gradient(135deg, #36e2ec, #2bc4d0); }
+.radio-genre-color-1 { background: linear-gradient(135deg, #7b61ff, #6c4fd8); }
+.radio-genre-color-2 { background: linear-gradient(135deg, #ff9a56, #ff6b6b); }
+.radio-genre-color-3 { background: linear-gradient(135deg, #43e97b, #38b28a); }
+.radio-genre-color-4 { background: linear-gradient(135deg, #667eea, #4c5fd5); }
+.radio-genre-color-5 { background: linear-gradient(135deg, #f093fb, #c25dd6); }
+
+.radio-genre-empty {
+  color: #7a7f94;
+  font-size: 13px;
+  background: rgba(120, 130, 170, 0.06);
+  border: 1px dashed rgba(120, 130, 170, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.radio-genre-empty a {
+  color: #36e2ec;
+  text-decoration: none;
+}
+
+.radio-genre-empty a:hover {
+  text-decoration: underline;
+}
+
 /* ── Artist Radio ── */
 .radio-artist-grid {
   display: flex;
