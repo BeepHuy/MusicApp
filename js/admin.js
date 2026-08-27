@@ -99,11 +99,11 @@ const Admin = (() => {
         <label>Genre <span class="admin-optional">(optional)</span></label>
         <input type="text" name="genre" value="${song?.genre || ''}" placeholder="lofi, hip-hop, pop...">
 
-        <label>Cover Image ${song ? '<span class="admin-optional">(để trống nếu giữ ảnh cũ)</span>' : ''}</label>
+        <label>Cover Image ${song ? '<span class="admin-optional">(leave empty to keep current image)</span>' : ''}</label>
         <input type="file" name="coverFile" accept="image/*">
         ${song?.cover_url ? `<img src="${song.cover_url}" class="admin-preview" alt="cover">` : ''}
 
-        <label>Audio File ${song ? '<span class="admin-optional">(để trống nếu giữ file cũ)</span>' : ''}</label>
+        <label>Audio File ${song ? '<span class="admin-optional">(leave empty to keep current file)</span>' : ''}</label>
         <input type="file" name="audioFile" accept="audio/*">
 
         <div class="admin-form-actions">

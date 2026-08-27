@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#36e2ec">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="./img/icon-192.png">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/icon-192.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/player-controls.css">
+    <link rel="stylesheet" href="./css/auth.css">
+    <link rel="stylesheet" href="./css/search.css">
+    <link rel="stylesheet" href="./css/responsive.css">
+    <title>Search — Music App</title>
+</head>
+
+<body>
+    <header>
+        <!-- Mobile: hamburger + overlay -->
+        <button class="menu-toggle" aria-label="Menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <div class="sidebar-overlay"></div>
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <div class="menu_side">
+            <div class="logo">
+                <img src="img/icon-512.png" alt="Logo">
+                <h2>Music App</h2>
+            </div>
+            <div class="playlist">
+                <h4><span></span><i class="bi bi-music-note-beamed"></i><a href="./index.html"> Playlist</a></h4>
+                <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="./week.html">Weekly Ratings</a></h4>
+                <h4><span></span><i class="bi bi-music-note-beamed"></i> <a href="./recommended.html"> Recommended</a></h4>
+            </div>
+            <!-- JS sẽ render danh sách bài hát vào đây -->
+            <div class="menu_song"></div>
+        </div>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <div class="song_side">
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Discover</a></li>
+                    <li><a href="./library.html">MY LIBRARY</a></li>
+                    <li><a href="./radio.html">RADIO</a></li>
+                </ul>
+                <div class="search">
+                    <i class="bi bi-search-heart"></i>
+                    <input type="text" placeholder="Search Music...💘">
+                </div>
+                <div class="user">
+                    <img src="img/user.png" alt="User" title="Kyren Huy">
+                </div>
+            </nav>
+
+            <div class="search-page">
+                <h1>Search</h1>
+                <!-- JS sẽ render kết quả tìm kiếm vào đây -->
+                <div class="search-body"></div>
+            </div>
+        </div>
+
+        <!-- ═══ PLAYER BAR ═══ -->
+        <div class="master_play">
+            <div class="wave">
+                <div class="wave1"></div>
+                <div class="wave1"></div>
+                <div class="wave1"></div>
+            </div>
+            <img src="img/0.png" alt="Album Art" id="poster_master_play">
+            <h5 id="title">
+                Select a song<br>
+                <div class="subtitle">to start playing</div>
+            </h5>
+            <div class="icon">
+                <i class="bi bi-shuffle" id="shuffleBtn" title="Shuffle"></i>
+                <i class="bi bi-skip-start-fill" id="back"></i>
+                <i class="bi bi-play-fill" id="masterPlay"></i>
+                <i class="bi bi-skip-end-fill" id="next"></i>
+                <i class="bi bi-repeat" id="repeatBtn" title="Repeat"></i>
+            </div>
+            <span id="currentStart">0:00</span>
+            <div class="bar">
+                <input type="range" id="seek" min="0" value="0" max="100">
+                <div class="bar2" id="bar2"></div>
+                <div class="dot"></div>
+            </div>
+            <span id="currentEnd">0:00</span>
+            <div class="vol">
+                <i class="bi bi-volume-down-fill" id="vol_icon"></i>
+                <input type="range" id="vol" min="0" value="30" max="100">
+                <div class="vol_bar"></div>
+                <div class="dot" id="vol_dot"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="./js/supabase.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/playlist.js"></script>
+    <!-- JS Modules — thứ tự quan trọng: player & ui trước, app.js cuối cùng -->
+    <script src="./js/player.js"></script>
+    <script src="./js/ui.js"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/mobile-menu.js"></script>
+
+    <script src="./js/pwa.js"></script>
+</body>
+
+</html>
