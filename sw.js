@@ -15,6 +15,7 @@ const STATIC_ASSETS = [
   './css/style.css',
   './css/auth.css',
   './css/player-controls.css',
+  './css/week.css',
   './css/library.css',
   './css/recommended.css',
   './css/radio.css',
@@ -33,6 +34,9 @@ const STATIC_ASSETS = [
   './js/pwa.js',
   './img/logo_web.png',
   './img/0.png',
+  './img/icon-192.png',
+  './img/icon-512.png',
+  './manifest.json',
 ];
 
 // Install: cache static assets
