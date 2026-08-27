@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════
 // search.js — Search Module
-// Real-time filtering of songs by title/artist
+// Bấm vào ô search ở bất kỳ trang nào → chuyển
+// sang trang search.html riêng, gõ để lọc trực tiếp
 // ═══════════════════════════════════════════
 
 const Search = (() => {
@@ -12,26 +13,35 @@ const Search = (() => {
     const searchInput = document.querySelector('.search input');
     if (!searchInput) return;
 
-    searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      _filterSidebar(query);
-    });
-  }
+    const onSearchPage = window.location.pathname.includes('search');
 
-  function _filterSidebar(query) {
-    const items = document.querySelectorAll('.menu_song .songItem');
-
-    if (!query) {
-      // Show all
-      items.forEach(item => { item.style.display = ''; });
+    if (!onSearchPage) {
+      // Các trang khác: bấm vào ô search là chuyển sang trang Search riêng
+      searchInput.addEventListener('focus', () => {
+        window.location.href = './search.html';
+      });
       return;
     }
 
-    items.forEach(item => {
-      const title = item.querySelector('h5')?.textContent.toLowerCase() || '';
-      const matches = title.includes(query);
-      item.style.display = matches ? '' : 'none';
+    // Trang Search: gõ để lọc kết quả trực tiếp
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.trim().toLowerCase();
+      _filter(query);
     });
+    searchInput.focus();
+  }
+
+  function _filter(query) {
+    if (!query) {
+      UI.renderSearchResults(null);
+      return;
+    }
+
+    const results = allSongs.filter(song =>
+      song.title.toLowerCase().includes(query) ||
+      song.artist.toLowerCase().includes(query)
+    );
+    UI.renderSearchResults(results);
   }
 
   return { init };

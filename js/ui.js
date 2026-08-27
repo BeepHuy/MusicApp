@@ -25,6 +25,8 @@ const UI = (() => {
       _renderRecommended();
     } else if (page === 'radio') {
       _renderRadio();
+    } else if (page === 'search') {
+      _renderSearch();
     }
     // 'library' page: nội dung do Playlist.renderLibraryPage() tự xử lý
 
@@ -40,6 +42,7 @@ const UI = (() => {
     if (path.includes('recommended')) return 'recommended';
     if (path.includes('radio')) return 'radio';
     if (path.includes('admin')) return 'admin';
+    if (path.includes('search')) return 'search';
     return 'index';
   }
 
@@ -232,7 +235,7 @@ const UI = (() => {
     const genreKeys = Object.keys(genreMap);
 
     const genreHtml = genreKeys.length === 0
-      ? `<p class="radio-genre-empty">Chưa có bài hát nào được gắn thể loại. Vào <a href="./admin.html">Manage Songs</a> để gắn genre cho từng bài và mở khoá các trạm này.</p>`
+      ? `<p class="radio-genre-empty">No songs have a genre tagged yet. Go to <a href="./admin.html">Manage Songs</a> to tag songs with a genre and unlock these stations.</p>`
       : `<div class="radio-genre-grid">
           ${genreKeys.map((genre, i) => `
             <div class="radio-genre-card radio-genre-color-${i % 6}" data-genre="${genre}">
@@ -307,6 +310,42 @@ const UI = (() => {
     if (g.includes('rock')) return 'bi-lightning';
     if (g.includes('ballad') || g.includes('chill')) return 'bi-cloud';
     return 'bi-music-note-beamed';
+  }
+
+  // ── Search (trang riêng, kết quả cập nhật khi gõ) ──
+  function _renderSearch() {
+    renderSearchResults(null);
+  }
+
+  function renderSearchResults(results) {
+    const body = document.querySelector('.search-body');
+    if (!body) return;
+
+    if (results === null) {
+      body.innerHTML = '<p class="search-hint">Enter a song title or artist to search.</p>';
+      return;
+    }
+
+    if (results.length === 0) {
+      body.innerHTML = '<p class="search-hint">No songs found.</p>';
+      return;
+    }
+
+    body.innerHTML = `
+      <div class="search-grid">
+        ${results.map(song => `
+          <li class="search-card songItem" data-id="${song.id}">
+            <img src="${song.cover}" alt="${song.artist}">
+            <h5>
+              ${song.title}
+              <div class="subtitle">${song.artist}</div>
+            </h5>
+          </li>
+        `).join('')}
+      </div>
+    `;
+
+    _bindPlayButtons(body);
   }
 
   // ── Weekly Rankings ──
@@ -459,5 +498,5 @@ const UI = (() => {
     }
   }
 
-  return { init };
+  return { init, renderSearchResults };
 })();
