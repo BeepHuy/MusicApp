@@ -10,14 +10,16 @@ const Search = (() => {
   function init(songList) {
     allSongs = songList;
 
-    const searchInput = document.querySelector('.search input');
-    if (!searchInput) return;
+    const searchBox = document.querySelector('.search');
+    const searchInput = searchBox?.querySelector('input');
+    if (!searchBox || !searchInput) return;
 
     const onSearchPage = window.location.pathname.includes('search');
 
     if (!onSearchPage) {
-      // Các trang khác: bấm vào ô search là chuyển sang trang Search riêng
-      searchInput.addEventListener('focus', () => {
+      // Các trang khác: bấm vào ô/icon search (kể cả trên mobile, khi ô nhập bị ẩn)
+      // là chuyển sang trang Search riêng
+      searchBox.addEventListener('click', () => {
         window.location.href = './search.html';
       });
       return;

@@ -240,10 +240,21 @@ header .song_side .new_releases .release_grid {
     margin-right: 15px;
   }
 
-  /* Ẩn search trên mobile — không cần vì đã có sidebar */
+  /* Mobile: chỉ hiện icon search (bấm vào để sang trang Search riêng), ẩn ô nhập cho gọn */
   header .song_side nav .search,
   header .song_side2 nav .search {
+    width: auto;
+    padding: 8px;
+  }
+
+  /* Trang search.html (body.is-search) vẫn cần hiện ô nhập để gõ được */
+  body:not(.is-search) header .song_side nav .search input,
+  body:not(.is-search) header .song_side2 nav .search input {
     display: none;
+  }
+
+  body.is-search header .song_side nav .search {
+    width: 70%;
   }
 
   header .song_side nav .user,
@@ -471,15 +482,6 @@ header .song_side .new_releases .release_grid {
     margin-right: 12px;
   }
 
-  header .song_side nav .search,
-  header .song_side2 nav .search {
-    width: 55%;
-  }
-
-  header .song_side nav .search input,
-  header .song_side2 nav .search input {
-    font-size: 11px;
-  }
 
   header .song_side .content h1 {
     font-size: 18px;

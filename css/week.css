@@ -117,6 +117,14 @@ header .song_side2 nav .user {
     height: 30px;
     border-radius: 50%;
     cursor: pointer;
+    flex-shrink: 0;
+}
+
+/* Chưa đăng nhập: nút "Sign In" cần rộng hơn avatar tròn, không để nó tràn ra ngoài */
+header .song_side2 nav .user:has(.user-login-btn) {
+    width: auto;
+    height: auto;
+    border-radius: 20px;
 }
 
 header .song_side2 nav .user img {

@@ -61,8 +61,17 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Supabase API: always network (data phải mới)
+  // Supabase API (danh sách bài hát/nghệ sĩ): network trước, cache dự phòng khi mất mạng
   if (url.hostname.includes('supabase.co') && url.pathname.includes('/rest/')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
     return;
   }
 

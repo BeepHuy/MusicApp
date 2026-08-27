@@ -215,6 +215,9 @@ const Auth = (() => {
           border: none;
           color: #fff;
           border-radius: 20px;
+          padding: 6px 16px;
+          width: max-content;
+          white-space: nowrap;
           font-size: 12px;
           font-family: 'Poppins', sans-serif;
           cursor: pointer;
