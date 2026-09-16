@@ -14,23 +14,29 @@ const Search = (() => {
     const searchInput = searchBox?.querySelector('input');
     if (!searchBox || !searchInput) return;
 
-    const onSearchPage = window.location.pathname.includes('search');
-
-    if (!onSearchPage) {
-      // Các trang khác: bấm vào ô/icon search (kể cả trên mobile, khi ô nhập bị ẩn)
+    // <nav> (chứa ô search) không bị Router thay thế khi chuyển trang, nên
+    // không thể quyết định hành vi 1 lần lúc load — phải kiểm tra trang hiện
+    // tại mỗi lần tương tác.
+    searchBox.addEventListener('click', () => {
+      if (_onSearchPage()) return;
+      // Trang khác: bấm vào ô/icon search (kể cả trên mobile, khi ô nhập bị ẩn)
       // là chuyển sang trang Search riêng
-      searchBox.addEventListener('click', () => {
+      if (typeof Router !== 'undefined') {
+        Router.navigate('./search.html');
+      } else {
         window.location.href = './search.html';
-      });
-      return;
-    }
+      }
+    });
 
     // Trang Search: gõ để lọc kết quả trực tiếp
     searchInput.addEventListener('input', (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      _filter(query);
+      if (!_onSearchPage()) return;
+      _filter(e.target.value.trim().toLowerCase());
     });
-    searchInput.focus();
+  }
+
+  function _onSearchPage() {
+    return window.location.pathname.includes('search');
   }
 
   function _filter(query) {
