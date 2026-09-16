@@ -9,9 +9,21 @@ const UI = (() => {
 
   function init(songsData) {
     data = songsData;
+    renderPage();
+
+    document.addEventListener('songChanged', (e) => {
+      _highlightSong(e.detail.id);
+    });
+  }
+
+  // Render lại phần nội dung riêng của trang hiện tại — gọi lại được
+  // mỗi khi Router chuyển "trang" (SPA), không chỉ lúc load lần đầu.
+  function renderPage() {
+    if (!data) return;
     const page = _detectPage();
 
     _renderSidebar(page);
+    _renderNavActive(page);
 
     if (page === 'index') {
       _renderFeatured();
@@ -27,11 +39,25 @@ const UI = (() => {
       _renderRadio();
     } else if (page === 'search') {
       _renderSearch();
+    } else if (page === 'library') {
+      Playlist.renderLibraryPage();
     }
-    // 'library' page: nội dung do Playlist.renderLibraryPage() tự xử lý
+  }
 
-    document.addEventListener('songChanged', (e) => {
-      _highlightSong(e.detail.id);
+  // ── Nav tab active (Discover / MY LIBRARY / RADIO) ──
+  // <nav> không bị Router thay thế nữa (để giữ ô search/user-menu sống xuyên
+  // suốt), nên tab active phải được tính lại mỗi lần đổi trang thay vì
+  // cứng trong HTML tĩnh. Giữ đúng bảng ánh xạ hiện có trong các file .html.
+  function _renderNavActive(page) {
+    const activeIndex = { index: 0, week: 0, library: 1, radio: 2 }[page];
+    const navLis = document.querySelectorAll('header nav ul li');
+    navLis.forEach((li, i) => {
+      li.querySelector(':scope > span')?.remove();
+      li.classList.remove('nav-active');
+      if (i === activeIndex) {
+        li.classList.add('nav-active');
+        li.insertAdjacentHTML('beforeend', '<span></span>');
+      }
     });
   }
 
@@ -315,6 +341,7 @@ const UI = (() => {
   // ── Search (trang riêng, kết quả cập nhật khi gõ) ──
   function _renderSearch() {
     renderSearchResults(null);
+    document.querySelector('.search input')?.focus();
   }
 
   function renderSearchResults(results) {
@@ -498,5 +525,5 @@ const UI = (() => {
     }
   }
 
-  return { init, renderSearchResults };
+  return { init, renderPage, renderSearchResults };
 })();

@@ -2,7 +2,7 @@
 // sw.js — Service Worker (Cache tài nguyên)
 // ═══════════════════════════════════════════
 
-const CACHE_NAME = 'music-app-v1';
+const CACHE_NAME = 'music-app-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -27,6 +27,7 @@ const STATIC_ASSETS = [
   './js/playlist.js',
   './js/player.js',
   './js/ui.js',
+  './js/router.js',
   './js/search.js',
   './js/app.js',
   './js/admin.js',
