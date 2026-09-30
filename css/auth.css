@@ -269,6 +269,28 @@
   color: #36e2ec !important;
 }
 
+/* ── Favorite (tim yêu thích) — dùng chung mọi danh sách bài hát ── */
+.songItem:hover .favorite-btn,
+.songItem2:hover .favorite-btn {
+  display: inline-block !important;
+}
+
+.favorite-btn {
+  cursor: pointer;
+  transition: .2s;
+  color: #7a7f94;
+  opacity: 1 !important;
+}
+
+.favorite-btn:hover {
+  color: #ff6b81 !important;
+}
+
+.favorite-btn.favorite-btn-active {
+  color: #ff6b81 !important;
+  display: inline-block !important;
+}
+
 /* ── Toast notification (thay cho alert()) ── */
 .app-toast {
   position: fixed;

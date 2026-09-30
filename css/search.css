@@ -33,6 +33,7 @@ header .song_side:has(.search-page)::before {
 }
 
 .search-card {
+  position: relative;
   background: rgba(120, 130, 170, 0.06);
   border: 1px solid rgba(120, 130, 170, 0.08);
   border-radius: 10px;

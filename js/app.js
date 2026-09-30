@@ -87,6 +87,8 @@
     console.log('🎵 Music App loaded from Supabase —', allSongs.length, 'songs');
     Auth.init();
     Playlist.init();
+    Favorites.init();
+    History.init();
     PWA.init();
     window._appData = data;  // lưu để playlist back button dùng
   } catch (err) {
@@ -108,6 +110,8 @@
       Search.init(unique);
       Auth.init();
       Playlist.init();
+      Favorites.init();
+      History.init();
       PWA.init();
     } catch (e) {
       console.error('❌ Fallback cũng lỗi:', e);
