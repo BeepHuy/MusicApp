@@ -196,7 +196,7 @@ const Auth = (() => {
           <img loading="lazy" src="${avatar}" alt="${name}" referrerpolicy="no-referrer">
           <span class="user-name">${name}</span>
           <div class="user-dropdown">
-            <a href="#"><i class="bi bi-person"></i> Profile</a>
+            <a href="./profile.html"><i class="bi bi-person"></i> Profile</a>
             <a href="#"><i class="bi bi-gear"></i> Settings</a>
             ${isAdmin ? '<a href="./admin.html"><i class="bi bi-music-note-list"></i> Manage Songs</a>' : ''}
             <a class="logout-btn"><i class="bi bi-box-arrow-right"></i> Log out</a>

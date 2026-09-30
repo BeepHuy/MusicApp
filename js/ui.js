@@ -41,6 +41,8 @@ const UI = (() => {
       _renderSearch();
     } else if (page === 'library') {
       Playlist.renderLibraryPage();
+    } else if (page === 'profile') {
+      Profile.render();
     }
   }
 
@@ -69,6 +71,7 @@ const UI = (() => {
     if (path.includes('radio')) return 'radio';
     if (path.includes('admin')) return 'admin';
     if (path.includes('search')) return 'search';
+    if (path.includes('profile')) return 'profile';
     return 'index';
   }
 

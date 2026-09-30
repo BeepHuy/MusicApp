@@ -1,0 +1,263 @@
+/* ═══════════════════════════════════════════
+   profile.css — Profile page
+   Avatar/tên hiển thị + thông tin tài khoản + đổi mật khẩu
+   ═══════════════════════════════════════════ */
+
+header .song_side:has(.profile-page)::before {
+  display: none;
+}
+
+.profile-page {
+  width: 90%;
+  max-width: 640px;
+  margin: 20px auto 0;
+}
+
+.profile-page h1 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 20px;
+}
+
+/* ── Empty / sign-in state (giống .lib-empty) ── */
+.profile-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7a7f94;
+  text-align: center;
+}
+
+.profile-empty i {
+  font-size: 40px;
+  color: #4c5262;
+  margin-bottom: 12px;
+}
+
+.profile-empty p {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.profile-empty .profile-signin-btn {
+  width: 140px;
+  height: 32px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #0f0c29;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.profile-empty .profile-signin-btn:hover {
+  box-shadow: 0 0 20px rgba(54, 226, 236, 0.3);
+}
+
+/* ── Card chung cho các khối trong Profile ── */
+.profile-card {
+  background: rgba(120, 130, 170, 0.06);
+  border: 1px solid rgba(120, 130, 170, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.profile-card h3 {
+  font-size: 14px;
+  color: #e0e4f0;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* ── Avatar + tên ── */
+.profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-avatar-wrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.profile-avatar-wrap img {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(15, 12, 41, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: .2s;
+  color: #e0e4f0;
+  font-size: 18px;
+}
+
+.profile-avatar-wrap:hover .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.profile-avatar-wrap.uploading .profile-avatar-overlay {
+  opacity: 1;
+}
+
+.profile-identity-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e0e4f0;
+  cursor: pointer;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-name i {
+  font-size: 13px;
+  color: #7a7f94;
+}
+
+.profile-name-input {
+  width: 100%;
+  max-width: 260px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(54, 226, 236, 0.4);
+  outline: none;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  color: #e0e4f0;
+  padding: 3px 0;
+}
+
+.profile-email {
+  font-size: 12px;
+  color: #7a7f94;
+  margin-top: 4px;
+}
+
+.profile-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.profile-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  color: #7a7f94;
+  background: rgba(120, 130, 170, 0.1);
+  border: 1px solid rgba(120, 130, 170, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.profile-badge.profile-badge-admin {
+  color: #36e2ec;
+  border-color: rgba(54, 226, 236, 0.3);
+  background: rgba(54, 226, 236, 0.08);
+}
+
+/* ── Info rows ── */
+.profile-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(120, 130, 170, 0.08);
+}
+
+.profile-info-row:last-child {
+  border-bottom: none;
+}
+
+.profile-info-row span:first-child {
+  color: #7a7f94;
+}
+
+.profile-info-row span:last-child {
+  color: #e0e4f0;
+}
+
+/* ── Password form ── */
+.profile-form-row {
+  margin-bottom: 14px;
+}
+
+.profile-form-row label {
+  display: block;
+  font-size: 12px;
+  color: #7a7f94;
+  margin-bottom: 6px;
+}
+
+.profile-input {
+  width: 100%;
+  background: rgba(120, 130, 170, 0.06);
+  border: 1px solid rgba(120, 130, 170, 0.15);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #e0e4f0;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: .2s;
+}
+
+.profile-input:focus {
+  border-color: rgba(54, 226, 236, 0.4);
+}
+
+.profile-submit-btn {
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #0f0c29;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.profile-submit-btn:hover {
+  box-shadow: 0 0 20px rgba(54, 226, 236, 0.3);
+}
+
+.profile-submit-btn:disabled {
+  opacity: .6;
+  cursor: default;
+  box-shadow: none;
+}
+
+.profile-provider-note {
+  font-size: 12px;
+  color: #7a7f94;
+}
