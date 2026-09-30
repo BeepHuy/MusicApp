@@ -11,7 +11,7 @@
 const Router = (() => {
   const SPA_PAGES = [
     'index.html', 'library.html', 'radio.html',
-    'week.html', 'recommended.html', 'search.html',
+    'week.html', 'recommended.html', 'search.html', 'profile.html',
   ];
 
   function _fileName(pathname) {
