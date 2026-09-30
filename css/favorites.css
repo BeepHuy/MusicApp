@@ -1,0 +1,117 @@
+/* ═══════════════════════════════════════════
+   favorites.css — Favorites page
+   Danh sách bài hát đã thích
+   ═══════════════════════════════════════════ */
+
+header .song_side:has(.favorites-page)::before {
+  display: none;
+}
+
+.favorites-page {
+  width: 90%;
+  margin: 20px auto 0;
+}
+
+.favorites-page h1 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #e0e4f0;
+  margin-bottom: 20px;
+}
+
+/* ── Empty / sign-in state (giống .lib-empty) ── */
+.fav-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: #7a7f94;
+  text-align: center;
+}
+
+.fav-empty i {
+  font-size: 40px;
+  color: #4c5262;
+  margin-bottom: 12px;
+}
+
+.fav-empty p {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.fav-empty .fav-signin-btn {
+  width: 140px;
+  height: 32px;
+  border: none;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #36e2ec, #2bc4d0);
+  color: #0f0c29;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.fav-empty .fav-signin-btn:hover {
+  box-shadow: 0 0 20px rgba(54, 226, 236, 0.3);
+}
+
+.fav-empty-text {
+  color: #7a7f94;
+  font-size: 13px;
+  padding: 10px 0 30px;
+}
+
+/* ── Song rows ── */
+.fav-song-row {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: .2s;
+  margin-bottom: 4px;
+}
+
+.fav-song-row:hover {
+  background: rgba(120, 130, 170, 0.08);
+}
+
+.fav-song-row img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: cover;
+  margin-right: 14px;
+}
+
+.fav-song-row h5 {
+  flex: 1;
+  font-size: 13px;
+  color: #e0e4f0;
+  line-height: 17px;
+}
+
+.fav-song-row h5 .subtitle {
+  font-size: 11px;
+  color: #7a7f94;
+}
+
+.fav-song-row .favorite-btn {
+  font-size: 18px;
+  color: #ff6b81;
+  margin-right: 14px;
+  transition: .2s;
+}
+
+.fav-song-row .playcircle {
+  font-size: 18px;
+  color: #7a7f94;
+  transition: .2s;
+}
+
+.fav-song-row:hover .playcircle {
+  color: #36e2ec;
+}

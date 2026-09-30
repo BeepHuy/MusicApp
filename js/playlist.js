@@ -270,6 +270,7 @@ const Playlist = (() => {
               <span>${String(i + 1).padStart(2, '0')}</span>
               <img src="${s.cover_url}" alt="${s.artists?.name}">
               <h5>${s.title}<div class="subtitle">${s.artists?.name || 'Unknown'}</div></h5>
+              ${UI.favIcon(s.id, 'font-size:16px; margin-right:14px;', true)}
               <i class="bi bi-play-circle-fill lib-song-play" data-song-id="${s.id}"></i>
               <i class="bi bi-x-circle lib-song-remove" data-song-id="${s.id}" title="Remove"></i>
             </div>
@@ -317,9 +318,16 @@ const Playlist = (() => {
       });
     });
 
+    body.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (btn.dataset.songId) Favorites.toggle(btn.dataset.songId);
+      });
+    });
+
     body.querySelectorAll('.lib-song-row').forEach(row => {
       row.addEventListener('click', (e) => {
-        if (e.target.closest('.lib-song-remove')) return;
+        if (e.target.closest('.lib-song-remove') || e.target.closest('.favorite-btn')) return;
         const songId = row.dataset.id;
         if (songId) Player.playById(songId);
       });

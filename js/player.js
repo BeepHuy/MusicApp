@@ -105,7 +105,7 @@ const Player = (() => {
     _saveState();
 
     document.dispatchEvent(new CustomEvent('songChanged', {
-      detail: { id: song.id }
+      detail: { id: song.id, restored: false }
     }));
   }
 
@@ -351,7 +351,7 @@ const Player = (() => {
           els.title.innerHTML = `${song.title}<br><div class="subtitle">${song.artist}</div>`;
           document.dispatchEvent(
             new CustomEvent("songChanged", {
-              detail: { id: song.id },
+              detail: { id: song.id, restored: true },
             }),
           );
         }

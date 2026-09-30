@@ -31,6 +31,7 @@ const UI = (() => {
       _renderArtists();
       _renderNewReleases();
       _initScrollButtons();
+      History.renderRecentlyPlayed();
     } else if (page === 'week') {
       _renderWeekly();
     } else if (page === 'recommended') {
@@ -43,6 +44,8 @@ const UI = (() => {
       Playlist.renderLibraryPage();
     } else if (page === 'profile') {
       Profile.render();
+    } else if (page === 'favorites') {
+      Favorites.renderFavoritesPage();
     }
   }
 
@@ -72,7 +75,18 @@ const UI = (() => {
     if (path.includes('admin')) return 'admin';
     if (path.includes('search')) return 'search';
     if (path.includes('profile')) return 'profile';
+    if (path.includes('favorites')) return 'favorites';
     return 'index';
+  }
+
+  // ── Icon tim yêu thích (dùng chung cho mọi danh sách bài hát) ──
+  // extraStyle: vị trí/kích cỡ riêng theo từng layout thẻ bài hát khác nhau,
+  // vì mỗi nơi đã có icon play/add-to-playlist đặt ở vị trí riêng.
+  function _favIcon(songId, extraStyle = '', alwaysVisible = false) {
+    const favorited = typeof Favorites !== 'undefined' && Favorites.isFavorite(songId);
+    const cls = favorited ? 'bi-heart-fill favorite-btn-active' : 'bi-heart';
+    const hiddenStyle = (favorited || alwaysVisible) ? '' : 'display:none;';
+    return `<i class="bi ${cls} favorite-btn" data-song-id="${songId}" style="${hiddenStyle}${extraStyle}"></i>`;
   }
 
   // ── Sidebar ──
@@ -88,6 +102,8 @@ const UI = (() => {
       playlistLinks[1]?.classList.add('active');
     } else if (page === 'recommended') {
       playlistLinks[2]?.classList.add('active');
+    } else if (page === 'favorites') {
+      playlistLinks[3]?.classList.add('active');
     }
 
     container.innerHTML = data.sidebar.map((song, i) => `
@@ -99,6 +115,7 @@ const UI = (() => {
           <div class="subtitle">${song.artist}</div>
         </h5>
         <i class="bi bi-plus-circle playlist-add-btn" data-song-id="${song.id}" title="Add to playlist" style="position:absolute; right:40px; top:8px; font-size:14px; color:#7a7f94; cursor:pointer; transition:0.2s; display:none;"></i>
+        ${_favIcon(song.id, 'position:absolute; right:65px; top:8px; font-size:14px;')}
         <i class="bi playcircle bi-play-circle-fill" data-song-id="${song.id}"></i>
       </li>
     `).join('');
@@ -138,6 +155,7 @@ const UI = (() => {
         <div class="img_play">
           <img src="${song.cover}" alt="${song.artist}">
           <i class="bi playcircle bi-play-circle-fill" data-song-id="${song.id}"></i>
+          ${_favIcon(song.id, 'position:absolute; top:4px; right:4px; font-size:14px;')}
         </div>
         <h5>
           ${song.title}
@@ -185,6 +203,7 @@ const UI = (() => {
               ${song.title}
               <div class="subtitle">${song.artist}</div>
             </h5>
+            ${_favIcon(song.id, 'position:absolute; top:8px; right:8px; font-size:16px;')}
           </li>
         `).join('')}
       </div>
@@ -219,6 +238,7 @@ const UI = (() => {
               ${song.title}
               <div class="subtitle">${song.artist}</div>
             </h5>
+            ${_favIcon(song.id, 'position:absolute; top:8px; right:8px; font-size:16px;')}
           </li>
         `).join('')}
       </div>
@@ -370,6 +390,7 @@ const UI = (() => {
               ${song.title}
               <div class="subtitle">${song.artist}</div>
             </h5>
+            ${_favIcon(song.id, 'position:absolute; top:8px; right:8px; font-size:16px;')}
           </li>
         `).join('')}
       </div>
@@ -402,6 +423,7 @@ const UI = (() => {
                 ${song.title}
                 <div class="subtitle">${song.artist}</div>
               </h5>
+              ${_favIcon(song.id, 'position:absolute; left:auto; right:16px; top:50%; transform:translateY(-50%); font-size:16px;')}
               <i class="bi weekbi playcircle bi-play-circle-fill" data-song-id="${song.id}"></i>
             </li>
           `).join('')}
@@ -466,6 +488,15 @@ const UI = (() => {
         Playlist.showAddMenu(songId, rect.right + 5, rect.top);
       });
     });
+
+    // Favorite (tim yêu thích) buttons
+    container.querySelectorAll('.favorite-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const songId = e.target.dataset.songId;
+        if (songId) Favorites.toggle(songId);
+      });
+    });
   }
 
   // ── Weekly highlight ──
@@ -528,5 +559,5 @@ const UI = (() => {
     }
   }
 
-  return { init, renderPage, renderSearchResults };
+  return { init, renderPage, renderSearchResults, bindSongActions: _bindPlayButtons, favIcon: _favIcon };
 })();
